@@ -1,5 +1,5 @@
 
-# Finds the maximum independent set
+# Finds the maximum clique set
 import itertools
 import z3 
 import networkx as nx
@@ -23,13 +23,13 @@ while True:
 
 if n!=None:
 # Uses networkx to genrate
-# a radom erdos graph and computes "maximal" IS using
-# networkx. 
+# a radom erdos graph 
    G=nx.erdos_renyi_graph(n,0.6)
    edges=G.edges
-   nx_max=nx.maximal_independent_set(G)
-   l=len(nx_max)
-   print(nx_max)
+# TODO 1 can we use networkx to find the maximal clique
+#   nx_max=nx.maximal_independent_set(G)
+#  l=len(nx_max)
+#   print(nx_max)
 elif file_name!=None:   
    input_file=open(file_name,"r")
    l=input_file.readline()
@@ -49,10 +49,13 @@ vars=[None]*n
 for i in range(0,n):
    vars[i]= z3.Bool("x"+str(i))
 
+# TODO 2: see TODO 1
+#if source=="R":
+#   print("networkx found IS of size {} looking for larger".format(l))
 
-if source=="R":
-   print("networkx found IS of size {} looking for larger".format(l))
-   k=l
+#all graphs have clique of size 2
+# unless there are no edges
+k=2
 
 last_model  = None
 
@@ -62,10 +65,10 @@ for i in range(0,n):
    for j in range(i+1,n):
       if (i,j) not in edges:
          notconnected.append((i,j))
-# start look for IS of the same size as returned 
-# by networkx. Each iteration increase the size
+
+# Each iteration increase the size
 # by one to see if there are bigger IS
-k=3
+
 while True:
    solver=z3.Solver()
 # we need all combinations of n-k+1 variables
@@ -89,26 +92,23 @@ while True:
    
 
 if last_model != None:
-   print("Found an IS of size {}".format(k))
+   print("Found clique of size {}".format(k))
    f=open("erdos.txt","w")
-   f.write("graph G {\n graph [nodesep=\"2\"];\n")
-   if source=="R":
-      f.write("subgraph networkx{\nlabel=\"networkx\";\n ")
-      f.write("{node [color=blue,] ")
-      for y in nx_max:
-         f.write("y{} ".format(y))
-      f.write("}\n")
-      for u,v in edges:
-         f.write("y{} -- y{};\n".format(u,v))
+   f.write("graph G {\n graph [nodesep=\"0.3\"];\n")
+# TODO 3: if we include networkx result
+# compare with z3-independent.py  
 
-   f.write("}\n subgraph z3 {\n label=\"z3\";\n")
    f.write("{ node [color=red] ")
-   for d in last_model.decls():
+   result=last_model.decls();
+   for d in result:
       if(last_model[d]==True):
          f.write("{} ".format(d.name()))
    f.write("}\n")
    for u,v in edges:
-      f.write("x{} -- x{};\n".format(u,v))
-   f.write("}}")
+      if last_model[vars[u]]==True and last_model[vars[v]]==True:
+         f.write("x{} -- x{}[color=red];\n".format(u,v))  
+      else:    
+         f.write("x{} -- x{};\n".format(u,v))
+   f.write("}")
 else:
-   print("No IS of size {} exits".format(k))
+   print("No clique of size {} exits".format(k))
