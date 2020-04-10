@@ -1,0 +1,123 @@
+
+\documentclass{article}
+\usepackage{gastex}
+\usepackage[usenames,dvips]{color}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{times}
+%\newcommand{\SpaceChar}{\ensuremath{\text{\textvisiblespace}}}
+\newcommand{\SpaceChar}{\sqcup}
+
+
+
+\begin{document}
+
+\pagestyle{empty}
+
+
+\begin{picture}(60,50)(40,-60)
+
+
+%\put(-20,-20){\framebox(80,40){}} 
+  
+%  \gasset{ExtNL=y,NLdist=6,AHnb=0,ilength=-6} 
+%% ilength is the length of the tick used to label a node as "initial
+%% node"
+%% NLdist is the distance between the node label and the node
+%% ExtNL=y/n means external to the node yes or no
+\gasset{Nh=4,Nw=4}
+%\node[Nh=30,Nw=30,Nmr=45](D)(0,0){} 
+%\node[fillcolor=Gray](s)(0,0){}
+\node[fillcolor=Green](x1)(40,0){}
+%\nodelabel[NLangle=180,ExtNL=y,NLdist=1,ilength=0](s){s}
+\nodelabel[NLangle=180,ExtNL=n,NLdist=0,ilength=0](x1){\textcolor{Black}{$x_1$}}
+
+
+\node[fillcolor=Blue](x2)(50,-10){}
+%\nodelabel[NLangle=90,ExtNL=y,NLdist=1,ilength=0](t){t}
+\nodelabel[NLangle=180,ExtNL=n,NLdist=0,ilength=0](x2){\textcolor{Black}{$x_2$}}
+
+
+\node[fillcolor=Red](x5)(40,-10){}
+%\nodelabel[NLangle=90,ExtNL=y,NLdist=1,ilength=0](x){x}
+\nodelabel[NLangle=180,ExtNL=n,NLdist=0,ilength=0](x5){\textcolor{Black}{$x_5$}}
+
+
+\node[fillcolor=Red](x8)(20,-10){}
+%\nodelabel[NLangle=-90,ExtNL=y,NLdist=1,ilength=0](y){y}
+\nodelabel[NLangle=180,ExtNL=n,NLdist=0,ilength=0](x8){\textcolor{Black}{$x_8$}}
+
+\node[fillcolor=Green](x3)(50,-20){}
+%\nodelabel[NLangle=-90,ExtNL=y,NLdist=1,ilength=0](z){z}
+\nodelabel[NLangle=180,ExtNL=n,NLdist=0,ilength=0](x3){\textcolor{Black}{$x_3$}}
+
+
+\node[fillcolor=Green](x6)(30,-20){}
+%\nodelabel[NLangle=90,ExtNL=y,NLdist=1,ilength=0](x){x}
+\nodelabel[NLangle=180,ExtNL=n,NLdist=0,ilength=0](x6){\textcolor{Black}{$x_6$}}
+
+\node[fillcolor=Red](x4)(40,-20){}
+%\nodelabel[NLangle=90,ExtNL=y,NLdist=1,ilength=0](x){x}
+\nodelabel[NLangle=180,ExtNL=n,NLdist=0,ilength=0](x4){\textcolor{Black}{$x_4$}}
+
+
+
+\node[fillcolor=Blue](x7)(20,-20){}
+%\nodelabel[NLangle=-90,ExtNL=y,NLdist=1,ilength=0](y){y}
+\nodelabel[NLangle=180,ExtNL=n,NLdist=0,ilength=0](x7){\textcolor{Black}{$x_7$}}
+
+\node[fillcolor=Blue](x9)(30,-10){}
+%\nodelabel[NLangle=-90,ExtNL=y,NLdist=1,ilength=0](y){y}
+\nodelabel[NLangle=180,ExtNL=n,NLdist=0,ilength=0](x9){\textcolor{Black}{$x_9$}}
+
+%\node[fillcolor=White](u)(60,0){}
+%\nodelabel[NLangle=-90,ExtNL=y,NLdist=1,ilength=0](z){z}
+%\nodelabel[NLangle=180,ExtNL=n,NLdist=0,ilength=0](u){\textcolor{Black}{$x_6$}}
+
+
+%% AHnb stands for Arrow Head number, set it to zero
+%% for no arrows
+ % \drawedge[AHnb=0](18,22){}
+%\gasset{AHlength=3,AHLength=3}
+\gasset{AHnb=0}
+%  \drawedge(s,t){}
+% \drawedge(s,y){}
+% % % \drawedge[ELside=r,ELpos=40,linecolor=Red](z,s){\tiny{5}}
+%  \drawedge(t,x){}
+%  \drawedge(y,x){}
+% % \drawedge(y,z){}
+
+%  %\drawedge[curvedepth=-4,ELside=r,linecolor=Red](x,z){\tiny{4}}
+
+% % \drawedge[curvedepth=0,ELside=r](z,u){}
+% %\drawedge[curvedepth=0,ELside=r](x,u){}
+
+
+% % \drawedge[curvedepth=-4,ELside=r](y,t){}
+%  \drawedge[curvedepth=0,ELside=r](t,y){}
+
+\drawedge[curvedepth=0,ELside=r](x1,x2){}
+\drawedge[curvedepth=0,ELside=r](x1,x5){}
+\drawedge[curvedepth=0,ELside=r](x1,x8){}
+\drawedge[curvedepth=0,ELside=r](x2,x3){}
+\drawedge[curvedepth=0,ELside=r](x3,x5){}
+\drawedge[curvedepth=0,ELside=r](x3,x4){}
+\drawedge[curvedepth=5,ELside=r](x4,x7){}
+\drawedge[curvedepth=0,ELside=r](x4,x6){}
+\drawedge[curvedepth=0,ELside=r](x5,x6){}
+
+\drawedge[curvedepth=0,ELside=r](x6,x7){}
+\drawedge[curvedepth=0,ELside=r](x6,x8){}
+\drawedge[curvedepth=0,ELside=r](x6,x9){}
+\drawedge[curvedepth=0,ELside=r](x7,x8){}
+\drawedge[curvedepth=0,ELside=r](x8,x9){}
+\drawedge[curvedepth=0,ELside=r](x5,x9){}
+\end{picture}
+
+
+
+\end{document}
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 

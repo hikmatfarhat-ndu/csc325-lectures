@@ -1,0 +1,85 @@
+
+\documentclass{article}
+\usepackage{gastex}
+\usepackage[usenames,dvips]{color}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{times}
+%\newcommand{\SpaceChar}{\ensuremath{\text{\textvisiblespace}}}
+\newcommand{\SpaceChar}{\sqcup}
+
+
+
+\begin{document}
+
+\pagestyle{empty}
+
+
+\begin{picture}(60,50)(40,-60)
+
+
+%\put(-20,-20){\framebox(80,40){}} 
+  
+%  \gasset{ExtNL=y,NLdist=6,AHnb=0,ilength=-6} 
+%% ilength is the length of the tick used to label a node as "initial
+%% node"
+%% NLdist is the distance between the node label and the node
+%% ExtNL=y/n means external to the node yes or no
+
+%\node[Nh=30,Nw=30,Nmr=45](D)(0,0){} 
+%\node[fillcolor=Gray](s)(0,0){}
+\node[fillcolor=White](x1)(0,0){}
+\nodelabel[NLangle=90,ExtNL=n,NLdist=7,ilength=0](x1){\textcolor{Black}{$2$}}
+\nodelabel[NLangle=180,ExtNL=n,NLdist=0,ilength=0](x1){\textcolor{Black}{$x_1$}}
+
+
+\node[fillcolor=White](x2)(20,0){}
+\nodelabel[NLangle=90,ExtNL=n,NLdist=7,ilength=0](x2){\textcolor{Black}{$8$}}
+\nodelabel[NLangle=180,ExtNL=n,NLdist=0,ilength=0](x2){\textcolor{Black}{$x_2$}}
+
+
+\node[fillcolor=White](x3)(40,0){}
+\nodelabel[NLangle=90,ExtNL=n,NLdist=7,ilength=0](x3){\textcolor{Black}{$3$}}
+\nodelabel[NLangle=180,ExtNL=n,NLdist=0,ilength=0](x3){\textcolor{Black}{$x_3$}}
+
+
+\node[fillcolor=White](x4)(60,0){}
+\nodelabel[NLangle=90,ExtNL=n,NLdist=7,ilength=0](x4){\textcolor{Black}{$7$}}
+\nodelabel[NLangle=180,ExtNL=n,NLdist=0,ilength=0](x4){\textcolor{Black}{$x_4$}}
+
+\node[fillcolor=White](x5)(80,0){}
+\nodelabel[NLangle=90,ExtNL=n,NLdist=7,ilength=0](x5){\textcolor{Black}{$4$}}
+\nodelabel[NLangle=180,ExtNL=n,NLdist=0,ilength=0](x5){\textcolor{Black}{$x_5$}}
+
+
+
+%% AHnb stands for Arrow Head number, set it to zero
+%% for no arrows
+ % \drawedge[AHnb=0](18,22){}
+%\gasset{AHlength=3,AHLength=3}
+\gasset{AHnb=0}
+ \drawedge(x1,x2){}
+\drawedge(x2,x3){}
+% \drawedge[ELside=r,ELpos=40,linecolor=Red](z,s){\tiny{5}}
+ \drawedge(x3,x4){}
+ \drawedge(x4,x5){}
+% \drawedge(y,z){}
+
+ %\drawedge[curvedepth=-4,ELside=r,linecolor=Red](x,z){\tiny{4}}
+
+% \drawedge[curvedepth=0,ELside=r](z,u){}
+%\drawedge[curvedepth=0,ELside=r](x,u){}
+
+
+% \drawedge[curvedepth=-4,ELside=r](y,t){}
+% \drawedge[curvedepth=0,ELside=r](t,y){}
+
+\end{picture}
+
+
+
+\end{document}
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 

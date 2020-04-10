@@ -1,0 +1,63 @@
+\documentclass{article}
+\usepackage{gastex}
+\usepackage[usenames,dvips]{color}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{times}
+%\newcommand{\SpaceChar}{\ensuremath{\text{\textvisiblespace}}}
+\newcommand{\SpaceChar}{\sqcup}
+
+
+
+\begin{document}
+
+\pagestyle{empty}
+\begin{picture}(60,50)(40,-60)
+\node(a)(0,0){$a$}
+\node(b)(20,0){$b$}
+\node(d)(40,0){$d$}
+\node(c)(0,-20){$c$}
+\node(e)(0,-40){$e$}
+\node(f)(20,-30){$f$}
+
+
+\drawedge(a,b){$-1$}
+\drawedge[curvedepth=2](b,d){$6$}
+\drawedge[curvedepth=2](d,b){$-3$}
+
+\drawedge[ELside=r](a,c){$3$}
+\drawedge[ELside=r](c,e){$2$}
+\drawedge(c,f){$4$}
+\drawedge[ELside=r](c,b){$-5$}
+\drawedge[ELside=r](f,d){$-1$}
+\drawedge[ELside=r](e,f){$-7$}
+%% AHnb stands for Arrow Head number, set it to zero
+%% for no arrows
+ % \drawedge[AHnb=0](18,22){}
+%\gasset{AHlength=3,AHLength=3}
+% \gasset{AHnb=0}
+%  \drawedge(x1,x2){}
+% \drawedge(x2,x3){}
+% % \drawedge[ELside=r,ELpos=40,linecolor=Red](z,s){\tiny{5}}
+%  \drawedge(x3,x4){}
+%  \drawedge(x4,x5){}
+% % \drawedge(y,z){}
+
+ %\drawedge[curvedepth=-4,ELside=r,linecolor=Red](x,z){\tiny{4}}
+
+% \drawedge[curvedepth=0,ELside=r](z,u){}
+%\drawedge[curvedepth=0,ELside=r](x,u){}
+
+
+% \drawedge[curvedepth=-4,ELside=r](y,t){}
+% \drawedge[curvedepth=0,ELside=r](t,y){}
+
+\end{picture}
+
+
+
+\end{document}
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 

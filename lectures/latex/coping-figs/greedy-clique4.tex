@@ -1,0 +1,108 @@
+
+\documentclass{article}
+\usepackage{gastex}
+\usepackage[usenames,dvips]{color}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{times}
+%\newcommand{\SpaceChar}{\ensuremath{\text{\textvisiblespace}}}
+\newcommand{\SpaceChar}{\sqcup}
+
+
+
+\begin{document}
+
+\pagestyle{empty}
+
+%first figure
+\begin{picture}(60,50)(0,50)
+
+
+%\put(-20,-20){\framebox(80,40){}} 
+  
+%  \gasset{ExtNL=y,NLdist=6,AHnb=0,ilength=-6} 
+%% ilength is the length of the tick used to label a node as "initial
+%% node"
+%% NLdist is the distance between the node label and the node
+%% ExtNL=y/n means external to the node yes or no
+\gasset{Nh=4,Nw=4}
+%\node[Nh=30,Nw=30,Nmr=45](D)(0,0){} 
+%\node[fillcolor=Gray](s)(0,0){}
+\node[fillcolor=Red](a)(20,0){}
+%\nodelabel[NLangle=180,ExtNL=y,NLdist=1,ilength=0](s){s}
+\nodelabel[NLangle=180,ExtNL=n,NLdist=0,ilength=0](a){\textcolor{Black}{$a$}}
+
+\node[fillcolor=Red](f)(40,0){}
+%\nodelabel[NLangle=90,ExtNL=y,NLdist=1,ilength=0](x){x}
+\nodelabel[NLangle=180,ExtNL=n,NLdist=0,ilength=0](f){\textcolor{Black}{$f$}}
+
+
+
+\node[fillcolor=Red](b)(15,-10){}
+%\nodelabel[NLangle=90,ExtNL=y,NLdist=1,ilength=0](t){t}
+\nodelabel[NLangle=180,ExtNL=n,NLdist=0,ilength=0](b){\textcolor{Black}{$b$}}
+
+\node[fillcolor=White](e)(50,-10){}
+%\nodelabel[NLangle=-90,ExtNL=y,NLdist=1,ilength=0](z){z}
+\nodelabel[NLangle=180,ExtNL=n,NLdist=0,ilength=0](e){\textcolor{Black}{$e$}}
+
+
+\node[fillcolor=White,dash={1}0](c)(20,-20){}
+%\nodelabel[NLangle=90,ExtNL=y,NLdist=1,ilength=0](x){x}
+\nodelabel[NLangle=180,ExtNL=n,NLdist=0,ilength=0](c){\textcolor{Black}{$c$}}
+
+
+\node[fillcolor=White,dash={1}0](d)(50,-20){}
+%\nodelabel[NLangle=-90,ExtNL=y,NLdist=1,ilength=0](y){y}
+\nodelabel[NLangle=180,ExtNL=n,NLdist=0,ilength=0](d){\textcolor{Black}{$d$}}
+
+
+
+
+%\node[fillcolor=White](u)(60,0){}
+%\nodelabel[NLangle=-90,ExtNL=y,NLdist=1,ilength=0](z){z}
+%\nodelabel[NLangle=180,ExtNL=n,NLdist=0,ilength=0](u){\textcolor{Black}{$x_6$}}
+
+
+%% AHnb stands for Arrow Head number, set it to zero
+%% for no arrows
+ % \drawedge[AHnb=0](18,22){}
+%\gasset{AHlength=3,AHLength=3}
+\gasset{AHnb=0}
+%  \drawedge(s,t){}
+% \drawedge(s,y){}
+% % % \drawedge[ELside=r,ELpos=40,linecolor=Red](z,s){\tiny{5}}
+%  \drawedge(t,x){}
+%  \drawedge(y,x){}
+% % \drawedge(y,z){}
+
+%  %\drawedge[curvedepth=-4,ELside=r,linecolor=Red](x,z){\tiny{4}}
+
+% % \drawedge[curvedepth=0,ELside=r](z,u){}
+% %\drawedge[curvedepth=0,ELside=r](x,u){}
+
+
+% % \drawedge[curvedepth=-4,ELside=r](y,t){}
+%  \drawedge[curvedepth=0,ELside=r](t,y){}
+
+\drawedge[curvedepth=0,ELside=r](a,f){}
+\drawedge[curvedepth=0,ELside=r](a,b){}
+\drawedge[curvedepth=0,ELside=r,dash={1}0](a,c){}
+\drawedge[curvedepth=0,ELside=r](a,e){}
+\drawedge[curvedepth=0,ELside=r](b,e){}
+\drawedge[curvedepth=0,ELside=r](b,f){}
+\drawedge[curvedepth=0,ELside=r,dash={1}0](b,d){}
+\drawedge[curvedepth=0,ELside=r,dash={1}0](d,c){}
+\drawedge[curvedepth=0,ELside=r](f,e){}
+\drawedge[curvedepth=0,ELside=r,dash={1}0](d,e){}
+
+\end{picture}
+
+
+
+
+\end{document}
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 

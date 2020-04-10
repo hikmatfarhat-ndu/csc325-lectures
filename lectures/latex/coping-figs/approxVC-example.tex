@@ -1,0 +1,88 @@
+
+\documentclass{article}
+\usepackage{gastex}
+\usepackage[usenames,dvips]{color}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{times}
+%\newcommand{\SpaceChar}{\ensuremath{\text{\textvisiblespace}}}
+\newcommand{\SpaceChar}{\sqcup}
+
+
+
+\begin{document}
+
+\pagestyle{empty}
+
+
+\begin{picture}(60,50)(40,-60)
+
+
+%\put(-20,-20){\framebox(80,40){}} 
+  
+%  \gasset{ExtNL=y,NLdist=6,AHnb=0,ilength=-6} 
+%% ilength is the length of the tick used to label a node as "initial
+%% node"
+%% NLdist is the distance between the node label and the node
+%% ExtNL=y/n means external to the node yes or no
+
+%\node[Nh=30,Nw=30,Nmr=45](D)(0,0){} 
+%\node[fillcolor=Gray](s)(0,0){}
+
+
+\node[fillcolor=White](a)(0,0){}
+\nodelabel[NLangle=180,ExtNL=n,NLdist=0,ilength=0](a){\textcolor{Black}{$a$}}
+
+
+\node[fillcolor=White](b)(25,15){}
+\nodelabel[NLangle=180,ExtNL=n,NLdist=0,ilength=0](b){\textcolor{Black}{$b$}}
+
+\node[fillcolor=White](d)(25,-15){}
+\nodelabel[NLangle=180,ExtNL=n,NLdist=0,ilength=0](d){\textcolor{Black}{$d$}}
+
+
+\node[fillcolor=White](c)(60,15){}
+\nodelabel[NLangle=180,ExtNL=n,NLdist=0,ilength=0](c){\textcolor{Black}{$c$}}
+
+\node[fillcolor=White](e)(50,-15){}
+\nodelabel[NLangle=180,ExtNL=n,NLdist=0,ilength=0](e){\textcolor{Black}{$e$}}
+
+\node[fillcolor=White](g)(0,-25){}
+\nodelabel[NLangle=180,ExtNL=n,NLdist=0,ilength=0](g){\textcolor{Black}{$g$}}
+
+%% AHnb stands for Arrow Head number, set it to zero
+%% for no arrows
+ % \drawedge[AHnb=0](18,22){}
+%\gasset{AHlength=3,AHLength=3}
+\gasset{AHnb=0}
+
+ \drawedge(a,b){}
+\drawedge(a,d){}
+% \drawedge[ELside=r,ELpos=40,linecolor=Red](z,s){\tiny{5}}
+% \drawedge(t,x){}
+% \drawedge(y,x){}
+% \drawedge(y,z){}
+
+ %\drawedge[curvedepth=-4,ELside=r,linecolor=Red](x,z){\tiny{4}}
+
+ %\drawedge[curvedepth=0,ELside=r](z,u){}
+%\drawedge[curvedepth=0,ELside=r](x,u){}
+
+
+% \drawedge[curvedepth=-4,ELside=r](y,t){}
+ \drawedge[curvedepth=0,ELside=r](b,d){}
+
+ \drawedge[curvedepth=0,ELside=r](b,c){}
+ \drawedge[curvedepth=0,ELside=r](b,e){}
+ \drawedge[curvedepth=0,ELside=r](d,g){}
+ \drawedge[curvedepth=0,ELside=r](d,e){}
+
+\end{picture}
+
+
+
+\end{document}
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 
