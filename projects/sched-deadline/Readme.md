@@ -1,6 +1,6 @@
 # Task Scheduling
 
-You have _n_ tasks to perform. Each task _i_ has a duration _t<sub>i</sub>_, a deadline _d<sub>i</sub>_ and if you perform the taks by the 
+You have _n_ tasks to perform. Each task _i_ has a duration _t<sub>i</sub>_ , a deadline _d<sub>i</sub>_ and if you perform the taks by the 
 deadline you earn a profit _p<sub>i</sub>_, otherwise you don't get any profit. As an example
 
 |Name | Duration | Deadline | Profit|
@@ -29,7 +29,7 @@ should retain the same signature.
 # Dynamic Programming (25 pts)
 
 When the duration is not a unit time for all the tasks the greedy strategy does not
-always give the optimal solution. Design a dyanmic programming strategy to obtain
+always give the optimal solution. Design a dynamic programming strategy to obtain
 the optimal solution. Write your code in the function `dp_solve` in the same file.
 As in the previous note you should not modify main or the signature of the functions.
 The function `dp_solve` should return the profit table for the optimal solution.
