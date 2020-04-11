@@ -5,4 +5,7 @@ lectures/auxilary
 lectures/pdf
 src/from-Dropbox
 __pycache__
+*.sln
+*.vc*
+Debug
 
