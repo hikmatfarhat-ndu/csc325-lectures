@@ -10,12 +10,30 @@ private:
 	T* p;
 	int _rows, _cols;
 public:
-	Matrix(int n, int m) :_rows(n), _cols(m) {
+	Matrix(int n=2, int m=2) :_rows(n), _cols(m) {
 		/* more efficient to create
 			a 1-d array that represents
 			a 2-d matrix
 			*/
 		p = new T[n * m]();
+	}
+	//copy constructor
+	Matrix(const Matrix& rhs) {		
+		_rows = rhs._rows;
+		_cols = rhs._cols;
+		p = new T[_rows * _cols];
+		for (int i = 0; i < _rows * _cols; i++)
+			p[i] = rhs.p[i];
+
+	}
+	Matrix& operator=(const Matrix& rhs) {
+		_rows = rhs._rows;
+		_cols = rhs._cols;
+		delete[] p;
+		p = new T[_rows * _cols];
+		for (int i = 0; i < _rows * _cols; i++)
+			p[i] = rhs.p[i];
+		return *this;
 	}
 	T* operator[](int i) {
 		return &p[i * _cols];
@@ -41,13 +59,25 @@ public:
 		prof_ratio(p / dur),_start(-1) {
 		
 	}
-
-	bool operator>(const Job& rhs) {
+	//operators need to be constant
+	//otherwise std::less will complain
+#ifdef DP
+	bool operator>(const Job& rhs) const{
 		return _deadline > rhs._deadline;
 	}
-	bool operator<(const Job& rhs) {
+	bool operator<(const Job& rhs) const{
 		return _deadline < rhs._deadline;
 	}
+#endif // DP
+#ifdef GREEDY
+	bool operator>(const Job& rhs) const {
+		return prof_ratio > rhs.prof_ratio;
+	}
+	bool operator<(const Job& rhs) const {
+		return prof_ratio < rhs.prof_ratio;
+	}
+#endif // GREEDY
+
 	int profit() const {
 		return _profit;
 	}
@@ -57,7 +87,7 @@ public:
 	std::string name() const {
 		return _name;
 	}
-	double getRatio() const {
+	double ratio() const {
 		return prof_ratio;
 	}
 	bool overlap(const Job& rhs) {

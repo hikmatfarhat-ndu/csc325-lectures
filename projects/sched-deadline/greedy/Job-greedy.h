@@ -1,6 +1,8 @@
 #pragma once
 #include <string>
 
+
+
 class Job {
 	int duration, deadline, profit;
 	std::string name;
