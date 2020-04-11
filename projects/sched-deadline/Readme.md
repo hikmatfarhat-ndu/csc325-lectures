@@ -1,6 +1,6 @@
 # Task Scheduling
 
-You have _n_ tasks to perform. Each task _i_ has a duration _t<sub>i</sub_, a deadline _d<sub>i</sub>_ and if you perform the taks by the 
+You have _n_ tasks to perform. Each task _i_ has a duration _t<sub>i</sub>_, a deadline _d<sub>i</sub>_ and if you perform the taks by the 
 deadline you earn a profit _p<sub>i</sub>_, otherwise you don't get any profit. As an example
 
 |Name | Duration | Deadline | Profit|
@@ -34,7 +34,7 @@ the optimal solution. Write your code in the function `dp_solve` in the same fil
 As in the previous note you should not modify main or the signature of the functions.
 The function `dp_solve` should return the profit table for the optimal solution.
 
-# (Dynamic Programming Solution (10pts)
+# Dynamic Programming Solution (10pts)
 
 Add a function that returns the actual tasks scheduled to run obtained from the 
 optimal table 
