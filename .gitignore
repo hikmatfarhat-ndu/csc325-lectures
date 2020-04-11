@@ -6,6 +6,8 @@ lectures/pdf
 src/from-Dropbox
 __pycache__
 *.sln
-*.vc*
+*.vs*
 Debug
+*.vc*
+
 
