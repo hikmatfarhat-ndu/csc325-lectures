@@ -52,9 +52,14 @@ public:
 class Job {
 	int _start,_duration, _deadline, _profit;
 	std::string _name;
+	int _previous = -1;
+	double prof_ratio;
 public:
-	Job(int dur, int dead, int p, std::string n):_name(n),
-		_duration(dur),_deadline(dead), _profit(p){}
+	Job(int dur, int dead, int p, std::string n) :
+		_name(n), _duration(dur),_deadline(dead), _profit(p),
+		prof_ratio(p / dur),_start(-1) {
+		
+	}
 
 	int profit() const {
 		return _profit;
@@ -65,14 +70,18 @@ public:
 	std::string name() const {
 		return _name;
 	}
-
+	double ratio() const {
+		return prof_ratio;
+	}
 	bool overlap(const Job& rhs) {
 		if (_start+_duration <= rhs._start)
 			return true;
 		if (rhs._start+rhs._duration<= _start)
 			return true;
+		
 		//otherwise
 		return false;
+
 	}
 	int duration() const {
 		return _duration;
@@ -102,3 +111,17 @@ std:string tmp;
 	std::getline(stream, tmp, ',');
 	return Job(dur, dead, profit, tmp);
 }
+class dp_less {
+public:
+	bool operator() (const Job& s1, const Job& s2) const {
+		return s1.deadline() < s2.deadline();
+	}
+};
+
+class greedy_less {
+public:
+	bool operator() (const Job& s1, const Job& s2) const {
+		return s1.profit()/s1.duration() <
+			s2.profit()/s2.duration();
+	}
+};
