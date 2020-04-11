@@ -7,5 +7,11 @@ deadline you earn a profit _p<sub>i</sub>_, otherwise you don't get any profit. 
 |---  |  ---     |     ---   |    ---|
 |A    | 1        | 2        | 70|
 |B    | 1        | 1        | 23|
+| C    | 1      | 2         | 27 |
+| D     | 1     | 1         |25 |
+|E      | 1     |3          |15|
+
+
+
 
 
