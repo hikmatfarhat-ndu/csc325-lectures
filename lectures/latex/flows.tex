@@ -87,6 +87,32 @@ float=tbh,
   
 
 \end{frame}
+\begin{frame}
+  \frametitle{Residual Networks}
+
+  \begin{itemize}
+    \item Given a graph $G=<V,E>$, a flow $f$ in $G$ and a capacity function $c$.
+    \item Define the residual capacity of an edge $(u,v)$ as
+    \begin{align*}
+      c_R(u,v)=c(u,v)-f(u,v)
+    \end{align*} 
+    \item Intuitivally, the residual capacity of an edge is how much more flow can pass through it.
+    \item Note that every $(u,v)\notin E$ also has a residual capacity.
+    \item Since the capacity of such pairs is by definition zero then their residual capacity is 
+    \begin{align*}
+      \forall (u,v)\notin E\ \ c_R(u,v)=-f(u,v)
+    \end{align*} 
+  \end{itemize}
+
+\end{frame}
+\begin{frame}
+  \frametitle{New frame}
+
+  \begin{itemize}
+    \item New item
+  \end{itemize}
+
+\end{frame}
 
 \end{document}
 
@@ -95,3 +121,4 @@ float=tbh,
 %%% mode: latex
 %%% TeX-master: t
 %%% End:
+ 
