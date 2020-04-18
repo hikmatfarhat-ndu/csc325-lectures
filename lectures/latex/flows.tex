@@ -1,0 +1,97 @@
+\documentclass{beamer}
+\usepackage{beamerthemesplit}
+\usepackage{graphics}
+%\usepackage[lined,boxed]{algorithm2e}
+\usepackage[lined,noend]{algorithm2e}
+\usepackage{amsmath}
+\usepackage{tikz}
+\usetikzlibrary{positioning,shapes.multipart}
+\usepackage{amssymb}
+\usepackage{listings}
+\usepackage{soul}
+\usepackage{mathtools}
+\usepackage{colortbl}
+\usepackage{subfigure}
+\newcommand{\given}[0]{\ensuremath{\!\mid\!}}
+\makeatletter
+\newcolumntype{W}{!{\smash{\vrule
+\@width 4\arrayrulewidth
+\@height\dimexpr\ht\@arstrutbox+2pt\relax
+\@depth\dimexpr\dp\@arstrutbox+2pt\relax}}}
+\makeatother
+\definecolor{gray}{rgb}{.7,.7,.7}
+
+
+
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+
+\lstset{
+basicstyle=\small,
+keywordstyle=\color{blue}\bfseries,
+numbers=left,
+numberstyle=\tiny,
+numbersep=5pt,
+showstringspaces=false,
+showspaces=false,
+captionpos=b,
+frame=tb,
+float=tbh,
+,escapeinside={*@}{@*}
+}
+\usetheme{Boadilla}
+\title{ Analysis of Algorithms}
+\subtitle{Network Flows}
+\author{Hikmat Farhat}
+%\email{hfarhat@ndu.edu.lb}
+%\institution{Notre Dame University}
+\newtheorem{mydef}{Definition}
+\newtheorem{lem}{Lemma}
+%\newcommand{\emphasis}[1]{\textcolor{yellow}{#1}}
+%\newcommand{\emphasis}[1]{\hl{#1}}
+\newcommand{\emphasis}[1]{\ul{#1}}
+%\newcommand{\floor}[1]{\lfloor{#1}\rfloor}
+%\newcommand{\bfloor}[1]{\Big\lfloor{#1}\Big\rfloor}
+
+%\newcommand{\gets}[0]{\leftarrow}
+
+%\newcommand{\gets}{\ensuremath{\leftarrow}}
+%\DeclareTextFontCommand{\emph}{\emphasis}
+\sethlcolor{yellow}
+\begin{document}
+% title page
+\frame{\titlepage}
+
+\begin{frame}
+  \frametitle{Maximum Flows}
+\begin{itemize}
+  \item Imagine having factory that produces materials
+  \item You would like to transport your products to a given destination
+  \item Suppose that there are multiple roads from factory to destination
+  \item Some are congested and some are less some
+  \item What is the maximum number of products you could transport from destination to source?
+\end{itemize}
+  
+
+\end{frame}  
+\begin{frame}
+  \frametitle{Flow Networks}
+\begin{itemize}
+  \item A \textbf{flow network} $G=<V,E>$ is a directed graph.
+  \item Each edge $(u,v)\in E$ has a \textbf{capacity} $c(u,v)\ge 0$.
+  \item If $(u,v)\notin E$ then we set $c(u,v)=0$.
+  \item There are two special vertices: \textbf{source} $s\in V$ and \textbf{sink} $t\in V$.
+  \item We assume that the graph is connected
+  \item A \textbf{flow} is a function $f:V\times V\rightarrow \mathbf{R}$
+\end{itemize}
+  
+
+\end{frame}
+
+\end{document}
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
