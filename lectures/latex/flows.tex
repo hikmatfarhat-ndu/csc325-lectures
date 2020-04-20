@@ -965,6 +965,142 @@ float=tbh,
    %\label{}
   \end{figure}
 \end{frame}
+\begin{frame}
+  \frametitle{Bipartite matching}
+
+  \begin{itemize}
+    \item Given a graph $G=<V,E>$  a \textbf{matching} is a set of edges $M\subseteq E$ such that for all $v\in V$ at \textbf{most} one edge in $M$ is incident on $v$.
+    \item $v\in V$ is \textbf{matched} if $\exists (u,v)\in M$ for some $u\in V$.
+    \item $M$ is said to be a maximum matching if for all matching $M'$  we have $|M'|\le |M|$
+    \item A graph $G=<V,E>$ is said to be bipartite if it can be partitioned $V=L\cup R$ where $L\cap R=\emptyset$ and for all $(u,v)\in E$, $u\in L$ and $v\in R$.
+  \end{itemize}
+
+\end{frame}
+\begin{frame}
+  \frametitle{Example: Matching in bipartite graphs}
+  \begin{figure}
+    \centering
+    
+    
+  
+  \subfigure{
+  \tikzstyle{round} = [draw,circle,minimum size=20]
+  \begin{tikzpicture}[scale=0.7]
+    \node (L) at (-5,8) {$L$};
+    \node (R) at (-2,8) {$R$};
+    \node[style=round] (v3) at (-5,4.5) {};
+    \node[style=round] (v4) at (-5,3) {};
+    \node[style=round] (v8) at (-5,1.5) {};
+    \node[style=round] (v9) at (-5,-0.5) {};
+    \node[style=round] (v1) at (-5,6) {};
+    \node[style=round] (v2) at (-2,5.5) {};
+    \node[style=round] (v5) at (-2,4) {};
+    \node[style=round] (v6) at (-2,2) {};
+    \node[style=round] (v7) at (-2,0.5) {};
+    \node (label1) at (-3,-1.5) {matching};
+    \draw  (v1) edge[ultra thick] (v2);
+    \draw  (v3) edge (v2);
+    \draw  (v4) edge (v5);
+    \draw  (v5) edge (v3);
+    \draw  (v3) edge[ultra thick] (v6);
+    \draw  (v4) edge (v6);
+    \draw  (v4) edge [ultra thick]  (v7);
+    \draw  (v8) edge (v6);
+    \draw  (v9) edge (v7);
+    \draw  (v9) edge (v6);
+    \end{tikzpicture}
+  }%%
+  \subfigure{
+  \tikzstyle{round} = [draw,circle,minimum size=20]
+  \begin{tikzpicture}[scale=0.7]
+    \node (L) at (-5,8) {$L$};
+    \node (R) at (-2,8) {$R$};
+    \node[style=round] (v3) at (-5,4.5) {};
+    \node[style=round] (v4) at (-5,3) {};
+    \node[style=round] (v8) at (-5,1.5) {};
+    \node[style=round] (v9) at (-5,-0.5) {};
+    \node[style=round] (v1) at (-5,6) {};
+    \node[style=round] (v2) at (-2,5.5) {};
+    \node[style=round] (v5) at (-2,4) {};
+    \node[style=round] (v6) at (-2,2) {};
+    \node[style=round] (v7) at (-2,0.5) {};
+    \node (label1) at (-3,-1.5) {maximum matching};
+    \draw  (v1) edge[ultra thick] (v2);
+    \draw  (v3) edge (v2);
+    \draw  (v4) edge[ultra thick] (v5);
+    \draw  (v5) edge (v3);
+    \draw  (v3) edge[ultra thick] (v6);
+    \draw  (v4) edge (v6);
+    \draw  (v4) edge (v7);
+    \draw  (v8) edge (v6);
+    \draw  (v9) edge[ultra thick] (v7);
+    \draw  (v9) edge (v6);
+    \end{tikzpicture}
+  }
+\end{figure}
+\end{frame}
+\begin{frame}
+  \frametitle{Constructing an equivalent flow network}
+  \begin{itemize}
+    \item Given a bipartite graph $G=<V,E>$ we construct a new (flow) graph $G'=<V',E'>$ as follows:
+    \item $V'=V\cup {s,t}$. With $s\in L$ and $t\in R$.
+    \item $E'=E\cup\set{(s,u)\mid u\in L)}\cup\set{(u,t)\mid u\in R}$
+    \item Also every edge $(u,v)\in E$ is made a direct edge from $L$ to $R$.
+    \item Finally the capacity of every edge in $E'$ is set to 1.
+  \end{itemize}
+\end{frame}
+\begin{frame}
+  \frametitle{Example}
+\begin{itemize}
+  \item From the maximum matching in the previous example we construct the flow network shown below where the maximum matching corresponds to the maximum flow.
+\end{itemize}
+ \begin{figure}
+   \centering
+       \tikzstyle{round} = [draw,circle,minimum size=20]
+    \begin{tikzpicture}[scale=0.7]
+      \node (L) at (-5,8) {$L$};
+      \node (R) at (-2,8) {$R$};
+      \node[draw,circle](s) at (-9,3) {$s$};
+      \node[draw,circle](t) at (2,3) {$t$};
+      \draw[->](s) edge[ultra thick] (v1);
+      \draw[->](s) edge[ultra thick] (v3);
+      \draw[->](s) edge[ultra thick] (v4);
+      \draw[->](s) edge (v8);
+      \draw[->](s) edge[ultra thick] (v9);
+
+
+      \draw[->](v2) edge[ultra thick] (t);
+      \draw[->](v5) edge[ultra thick] (t);
+      \draw[->](v6) edge[ultra thick] (t);
+      \draw[->](v7) edge[ultra thick] (t);
+      
+
+
+      \node[style=round] (v3) at (-5,4.5) {v3};
+      \node[style=round] (v4) at (-5,3) {v4};
+      \node[style=round] (v8) at (-5,1.5) {v8};
+      \node[style=round] (v9) at (-5,-0.5) {v9};
+      \node[style=round] (v1) at (-5,6) {v1};
+      \node[style=round] (v2) at (-2,5.5) {v2};
+      \node[style=round] (v5) at (-2,4) {v5};
+      \node[style=round] (v6) at (-2,2) {v6};
+      \node[style=round] (v7) at (-2,0.5) {v7};
+      \node (label1) at (-3,-1.5) {flow network};
+      \draw[->]  (v1) edge[ultra thick] (v2);
+      \draw[->]  (v3) edge (v2);
+      \draw[->]  (v4) edge[ultra thick] (v5);
+      \draw[->]  (v3) edge (v5);
+      \draw[->]  (v3) edge[ultra thick] (v6);
+      \draw[->]  (v4) edge (v6);
+      \draw[->]  (v4) edge (v7);
+      \draw[->]  (v8) edge (v6);
+      \draw[->]  (v9) edge[ultra thick] (v7);
+      \draw[->]  (v9) edge (v6);
+      \end{tikzpicture}
+    
+ \end{figure} 
+
+\end{frame}
 \end{document}
 
 
