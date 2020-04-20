@@ -5,7 +5,7 @@
 \usepackage[lined,noend]{algorithm2e}
 \usepackage{amsmath}
 \usepackage{tikz}
-\usetikzlibrary{positioning,shapes.multipart}
+\usetikzlibrary{positioning,shapes.multipart,automata,arrows.meta}
 \usepackage{amssymb}
 \usepackage{listings}
 \usepackage{soul}
@@ -13,6 +13,7 @@
 \usepackage{colortbl}
 \usepackage{subfigure}
 \newcommand{\given}[0]{\ensuremath{\!\mid\!}}
+\newcommand{\set}[1]{\ensuremath{\{#1\}}}
 \makeatletter
 \newcolumntype{W}{!{\smash{\vrule
 \@width 4\arrayrulewidth
@@ -82,9 +83,54 @@ float=tbh,
   \item If $(u,v)\notin E$ then we set $c(u,v)=0$.
   \item There are two special vertices: \textbf{source} $s\in V$ and \textbf{sink} $t\in V$.
   \item We assume that the graph is connected
-  \item A \textbf{flow} is a function $f:V\times V\rightarrow \mathbf{R}$
+  \item A \textbf{flow} is a function $f:V\times V\rightarrow \mathbf{R}$ with the following constraints:
+  \begin{enumerate}
+    \item for all $u,v\in V$ we have $f(u,v)\le c(u,v)$
+    \item for all $u,v\in V$ we have $f(u,v)=-f(v,u)$
+    \item for all $u\in V-\set{s,t}$ we have
+    \begin{align*}
+      \sum_{v\in V}f(u,v)=0
+    \end{align*}
+  \end{enumerate}
 \end{itemize}
   
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Example}
+  \begin{itemize}
+    \item Notation: $flow/capacity$. if $flow=0$, e.g $v_2\rightarrow v_1$. then just $capacity$
+  \end{itemize}
+  \begin{figure}[]
+    \centering
+    
+   
+  \begin{tikzpicture}
+
+    \node[draw,circle,minimum size=25] (s)  at (-7,1.5) {$s$};
+    \node[draw,circle,minimum size=25] (v1) at (-3.5,3) {$v_1$};
+    \node[draw,circle,minimum size=25] (v2) at (-3.5,-1) {$v_2$};
+    \node[draw,circle,minimum size=25] (v3) at (0,3) {$v_3$};
+    \node[draw,circle,minimum size=25] (v4) at (0,-1) {$v_4$};
+    \node[draw,circle,minimum size=25] (t) at (3,1.5) {$t$};
+    \draw[-{Latex[length=2mm]}](s) edge node[midway,above]{\scriptsize 11/16} (v1);
+    \draw[-{Latex[length=2mm]}]  (v1) edge node[midway,above]{\scriptsize 12/12} (v3);
+    \draw[-{Latex[length=2mm]}]  (s) edge node[midway,below left]{\scriptsize 8/13}(v2);
+    \draw[-{Latex[length=2mm]}]  (v2) edge [bend left=10]
+     node[midway,left]{\scriptsize{10}} (v1);
+    \draw[-{Latex[length=2mm]}]  (v2) edge node[midway,below ]{\scriptsize 11/14} (v4);
+    \draw[-{Latex[length=2mm]}]  (v4) edge node[midway,right ]{\scriptsize 7/7} (v3);
+    \draw[-{Latex[length=2mm]}]  (v4) edge node[midway,below right ]{\scriptsize 4/4} (t);
+    \draw[-{Latex[length=2mm]}]  (v3) edge node[midway,above right ]{\scriptsize 15/20} (t);
+    \draw[-{Latex[length=2mm]}]  (v3) edge node[midway,below right]{\scriptsize 4/9} (v2);
+    \draw[-{Latex[length=2mm]}]  (v3) edge (v1);
+    \draw[-{Latex[length=2mm]}]  (v1) edge [bend left=10]
+    node[midway,right]{\scriptsize{1/4}} (v2);
+    \end{tikzpicture}
+    \caption{1}
+    \label{}
+  \end{figure}
 
 \end{frame}
 \begin{frame}
@@ -94,11 +140,11 @@ float=tbh,
     \item Given a graph $G=<V,E>$, a flow $f$ in $G$ and a capacity function $c$.
     \item Define the residual capacity of an edge $(u,v)$ as
     \begin{align*}
-      c_R(u,v)=c(u,v)-f(u,v)
+      c_f(u,v)=c(u,v)-f(u,v)
     \end{align*} 
     \item Intuitivally, the residual capacity of an edge is how much more flow can pass through it.
     \item Note that every $(u,v)\notin E$ also has a residual capacity.
-    \item Since the capacity of such pairs is by definition zero then their residual capacity is 
+    \item Since the capacity of such pairs is by definition zero then their residual. capacity is 
     \begin{align*}
       \forall (u,v)\notin E\ \ c_R(u,v)=-f(u,v)
     \end{align*} 
@@ -106,14 +152,762 @@ float=tbh,
 
 \end{frame}
 \begin{frame}
-  \frametitle{New frame}
+  \frametitle{Example}
+
+  \begin{figure}[]
+    \centering
+    
+   \subfigure[Network]
+   {
+  \begin{tikzpicture}[scale=0.5,every node/.style={scale=0.5,minimum size=22}]
+
+    \node[draw,circle] (s)  at (-10,1.5) {$s$};
+    \node[draw,circle] (v1) at (-5.5,3) {$v_1$};
+    \node[draw,circle] (v2) at (-5.5,-2) {$v_2$};
+    \node[draw,circle] (v3) at (0,3) {$v_3$};
+    \node[draw,circle] (v4) at (0,-2) {$v_4$};
+    \node[draw,circle] (t) at (3,1.5) {$t$};
+    \draw[-{Latex[length=2mm]}](s) edge node[midway,above]{\scriptsize 11/16} (v1);
+    \draw[-{Latex[length=2mm]}]  (v1) edge node[midway,above]{\scriptsize 12/12} (v3);
+    \draw[-{Latex[length=2mm]}]  (s) edge node[midway,below left]{\scriptsize 8/13}(v2);
+    \draw[-{Latex[length=2mm]}]  (v2) edge [bend left=10]
+     node[midway,left]{\scriptsize{10}} (v1);
+    \draw[-{Latex[length=2mm]}]  (v2) edge node[midway,below ]{\scriptsize 11/14} (v4);
+    \draw[-{Latex[length=2mm]}]  (v4) edge node[midway,right ]{\scriptsize 7/7} (v3);
+    \draw[-{Latex[length=2mm]}]  (v4) edge node[midway,below right ]{\scriptsize 4/4} (t);
+    \draw[-{Latex[length=2mm]}]  (v3) edge node[midway,above right ]{\scriptsize 15/20} (t);
+    \draw[-{Latex[length=2mm]}]  (v3) edge node[midway,below right]{\scriptsize 4/9} (v2);
+    \draw[-{Latex[length=2mm]}]  (v1) edge [bend left=10]
+    node[midway,right]{\scriptsize{1/4}} (v2);
+    \end{tikzpicture}
+   
+   }
+
+   \subfigure[Residual]{
+
+    \begin{tikzpicture}[scale=0.5,every node/.style={scale=0.5,minimum size=22}]
+
+      \node[draw,circle] (s)  at (-10,1.5) { $s$};
+      \node[draw,circle] (v1) at (-5.5,3) { $v_1$};
+      \node[draw,circle] (v2) at (-5.5,-2) {$v_2$};
+      \node[draw,circle] (v3) at (0,3) {$v_3$};
+      \node[draw,circle] (v4) at (0,-2) {$v_4$};
+      \node[draw,circle] (t) at (3,1.5) {$t$};
+      \draw[-{Latex[length=2mm]}](s) edge  [bend left=10 ] 
+      node[midway,above]{\scriptsize 5} (v1);
+      \draw[-{Latex[length=2mm]}](v1) edge  [bend left=10 ] 
+      node[midway,right]{\scriptsize 11} (s);
+
+      \draw[-{Latex[length=2mm]}]  (v3) edge node[midway,above]{\scriptsize 12} (v1);
+      \draw[-{Latex[length=2mm]}]  (s) edge [bend left=10] 
+      node[midway,right]{\scriptsize 5}(v2);
+      \draw[-{Latex[length=2mm]}]  (v2) edge [bend left=10]
+      node[midway,left]{\scriptsize 8}(s);
+
+      \draw[-{Latex[length=2mm]}]  (v2) edge [bend left=10]
+       node[midway,left]{\scriptsize{11}} (v1);
+      \draw[-{Latex[length=2mm]}]  (v2) edge [bend left=10]
+      node[midway,above]{\scriptsize 3} (v4);
+      \draw[-{Latex[length=2mm]}]  (v4) edge [bend left=10]
+      node[midway,below]{\scriptsize 11} (v2);
+
+      \draw[-{Latex[length=2mm]}]  (v3) edge node[midway,right ]{\scriptsize 7} (v4);
+
+      \draw[-{Latex[length=2mm]}]  (t) edge node[midway,below right ]{\scriptsize 4} (v4);
+      \draw[-{Latex[length=2mm]}]  (v3) edge [bend left=10]
+      node[midway,above]{\scriptsize 5} (t);
+      \draw[-{Latex[length=2mm]}]  (t) edge [bend left=10]
+      node[midway,below ]{\scriptsize 15} (v3);
+      \draw[-{Latex[length=2mm]}]  (v3) edge [bend right=10]
+      node[midway,above left]{\scriptsize 5} (v2);
+      \draw[-{Latex[length=2mm]}]  (v2) edge [bend right=10]
+      node[midway,below]{\scriptsize 4} (v3);
+
+      \draw[-{Latex[length=2mm]}]  (v1) edge [bend left=10]
+      node[midway,right]{\scriptsize{3}} (v2);
+      \end{tikzpicture}
+    
+
+   }
+   %\caption{1}
+   %\label{}
+  \end{figure}
+
+\end{frame}
+\begin{frame}
+  \frametitle{Ford-Fulkerson Method}
 
   \begin{itemize}
-    \item New item
+    \item Ford-Fulkerson is a general \textbf{method} to find a maximum flow in a a network.
+    \item Iteratively find an \textbf{augemting path} in the residual network.
+    \item update the residual network.
+    \item until there is no more augemting paths.
+    \item the resulting flow is maximum.
   \end{itemize}
 
 \end{frame}
+\begin{frame}[fragile]
+  \frametitle{}
 
+  \begin{algorithm}[H]
+    \SetKwFunction{KwFn}{FORD-FULKERSON(G,s,t)}
+    \DontPrintSemicolon
+    %\dontprintsemicolon
+    \KwFn \;
+   \ForEach{ $(u,v)\in V\times V$}{
+       $c_r(u,v)\gets c(u,v)$
+   }
+
+   \While {$\exists$ a path $p$ from $s$ to $t$ in $G_f$}
+    {
+      $c_r(p)\gets \min\set{c_r(u,v): (u,v)\in p} $\;
+
+      \ForEach{$(u,v)\in p$}{
+        $c_r(u,v)\gets c_r(u,v)-c_r(p)$\;
+        $c_r(v,u)\gets c_r(v,u)+c_r(p)$\;
+      }
+
+    }
+    \ForEach{ $(u,v)\in E$}{
+      $f(u,v)\gets c(u,v)-c_r(u,v)$
+    } 
+    \end{algorithm}
+\begin{itemize}
+  \item Since it does not specify \textbf{how} to find an augmenting path, FF is called a method. 
+  \item For now we will find an augmenting path "visually".
+\end{itemize}
+\end{frame}
+\setcounter{subfigure}{0}
+\begin{frame}
+  \frametitle{Example}
+  \begin{itemize}
+    \item Initially there is no flow. Only edges with $c_r>0$ are shown
+  \end{itemize}
+  \begin{figure}[]
+    \centering
+    
+   \subfigure[\tiny{$c_p=4$}]
+   {
+  \begin{tikzpicture}[scale=0.4,every node/.style={scale=0.5,minimum size=22}]
+
+    \node[draw,circle] (s)  at (-10,1.5) {$s$};
+    \node[draw,circle] (v1) at (-5.5,3) {$v_1$};
+    \node[draw,circle] (v2) at (-5.5,-2) {$v_2$};
+    \node[draw,circle] (v3) at (0,3) {$v_3$};
+    \node[draw,circle] (v4) at (0,-2) {$v_4$};
+    \node[draw,circle] (t) at (4,1.5) {$t$};
+    \draw[-{Latex[length=2mm]}](s) edge[color=red] node[midway,above]{\scriptsize 16} (v1);
+    \draw[-{Latex[length=2mm]}]  (v1) edge[color=red] node[midway,above]{\scriptsize 12} (v3);
+    \draw[-{Latex[length=2mm]}]  (s) edge node[midway,below left]{\scriptsize 13}(v2);
+    
+    \draw[-{Latex[length=2mm]}]  (v2) edge [color=red] node[midway,below ]{\scriptsize 14} (v4);
+    \draw[-{Latex[length=2mm]}]  (v4) edge node[midway,right ]{\scriptsize 7} (v3);
+    \draw[-{Latex[length=2mm]}]  (v4) edge[color=red] node[midway,below right ]{\scriptsize 4} (t);
+    \draw[-{Latex[length=2mm]}]  (v3) edge node[midway,above right ]{\scriptsize 20} (t);
+    \draw[-{Latex[length=2mm]}]  (v3) edge[color=red] node[midway,below right]{\scriptsize 9} (v2);
+    \draw[-{Latex[length=2mm]}]  (v2) edge
+    node[midway,left]{\scriptsize{4}} (v1);
+    \end{tikzpicture}
+   
+   }
+
+   \subfigure[\tiny{update 1}]{
+
+    \begin{tikzpicture}[scale=0.4,every node/.style={scale=0.5,minimum size=22}]
+
+      \node[draw,circle] (s)  at (-10,1.5) { $s$};
+      \node[draw,circle] (v1) at (-5.5,3) { $v_1$};
+      \node[draw,circle] (v2) at (-5.5,-2) {$v_2$};
+      \node[draw,circle] (v3) at (0,3) {$v_3$};
+      \node[draw,circle] (v4) at (0,-2) {$v_4$};
+      \node[draw,circle] (t) at (4,1.5) {$t$};
+      \draw[-{Latex[length=2mm]}](s) edge  [bend left=10 ] 
+      node[midway,above]{\scriptsize 12} (v1);
+      \draw[-{Latex[length=2mm]}](v1) edge  [bend left=10 ] 
+      node[midway,right]{\scriptsize 4} (s);
+
+      \draw[-{Latex[length=2mm]}]  (v3) edge[bend left=10] 
+      node[midway,below]{\scriptsize 4} (v1);
+      \draw[-{Latex[length=2mm]}]  (v1) edge[bend left=10] 
+      node[midway,above]{\scriptsize 8} (v3);
+
+      \draw[-{Latex[length=2mm]}]  (s) edge  
+      node[midway,right]{\scriptsize 13}(v2);
+      %\draw[-{Latex[length=2mm]}]  (v2) edge [bend left=10]
+      %#node[midway,left]{\scriptsize 8}(s);
+
+      
+      \draw[-{Latex[length=2mm]}]  (v2) edge 
+      node[midway,left]{\scriptsize{4}} (v1);
+
+      \draw[-{Latex[length=2mm]}]  (v2) edge [bend left=10]
+      node[midway,above]{\scriptsize 10} (v4);
+      \draw[-{Latex[length=2mm]}]  (v4) edge [bend left=10]
+      node[midway,below]{\scriptsize 4} (v2);
+
+      \draw[-{Latex[length=2mm]}]  (v4) edge node[midway,right ]{\scriptsize 7} (v3);
+
+      \draw[-{Latex[length=2mm]}]  (t) edge node[midway,below right ]{\scriptsize 4} (v4);
+      \draw[-{Latex[length=2mm]}]  (v3) edge 
+      node[midway,above]{\scriptsize 20} (t);
+     % \draw[-{Latex[length=2mm]}]  (t) edge [bend left=10]
+     %s node[midway,below ]{\scriptsize 15} (v3);
+      \draw[-{Latex[length=2mm]}]  (v3) edge [bend right=10]
+      node[midway,above left]{\scriptsize 5} (v2);
+      \draw[-{Latex[length=2mm]}]  (v2) edge [bend right=10]
+      node[midway,below]{\scriptsize 4} (v3);
+
+      \end{tikzpicture}
+    
+
+   }
+   %\caption{1}
+   %\label{}
+  \end{figure}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Example}
+  \begin{figure}[]
+    \centering
+    
+   \subfigure[\tiny{$c_f=4$}]{
+
+    \begin{tikzpicture}[scale=0.4,every node/.style={scale=0.5,minimum size=22}]
+
+      \node[draw,circle] (s)  at (-10,1.5) { $s$};
+      \node[draw,circle] (v1) at (-5.5,3) { $v_1$};
+      \node[draw,circle] (v2) at (-5.5,-2) {$v_2$};
+      \node[draw,circle] (v3) at (0,3) {$v_3$};
+      \node[draw,circle] (v4) at (0,-2) {$v_4$};
+      \node[draw,circle] (t) at (4,1.5) {$t$};
+      \draw[-{Latex[length=2mm]}](s) edge  [bend left=10 ] 
+      node[midway,above]{\scriptsize 12} (v1);
+      \draw[-{Latex[length=2mm]}](v1) edge  [bend left=10 ] 
+      node[midway,right]{\scriptsize 4} (s);
+
+      \draw[-{Latex[length=2mm]}]  (v3) edge[bend left=10] 
+      node[midway,below]{\scriptsize 4} (v1);
+      \draw[-{Latex[length=2mm]}]  (v1) edge[bend left=10,color=red] 
+      node[midway,above]{\scriptsize 8} (v3);
+
+      \draw[-{Latex[length=2mm]}]  (s) edge [color=red] 
+      node[midway,right]{\scriptsize 13}(v2);
+      %\draw[-{Latex[length=2mm]}]  (v2) edge [bend left=10]
+      %#node[midway,left]{\scriptsize 8}(s);
+
+      \draw[-{Latex[length=2mm]}]  (v2) edge [color=red]
+       node[midway,left]{\scriptsize{4}} (v1); 
+      
+      \draw[-{Latex[length=2mm]}]  (v2) edge [bend left=10]
+      node[midway,above]{\scriptsize 10} (v4);
+      \draw[-{Latex[length=2mm]}]  (v4) edge [bend left=10]
+      node[midway,below]{\scriptsize 4} (v2);
+
+      \draw[-{Latex[length=2mm]}]  (v4) edge node[midway,right ]{\scriptsize 7} (v3);
+
+      \draw[-{Latex[length=2mm]}]  (t) edge node[midway,below right ]{\scriptsize 4} (v4);
+      \draw[-{Latex[length=2mm]}]  (v3) edge [color=red]
+      node[midway,above]{\scriptsize 20} (t);
+     % \draw[-{Latex[length=2mm]}]  (t) edge [bend left=10]
+     %s node[midway,below ]{\scriptsize 15} (v3);
+      \draw[-{Latex[length=2mm]}]  (v3) edge [bend right=10]
+      node[midway,above left]{\scriptsize 5} (v2);
+      \draw[-{Latex[length=2mm]}]  (v2) edge [bend right=10]
+      node[midway,below]{\scriptsize 4} (v3);
+
+      \end{tikzpicture}
+    
+
+   }
+
+   \subfigure[\tiny{update 2}]{
+
+    \begin{tikzpicture}[scale=0.4,every node/.style={scale=0.5,minimum size=22}]
+
+      \node[draw,circle] (s)  at (-10,1.5) { $s$};
+      \node[draw,circle] (v1) at (-5.5,3) { $v_1$};
+      \node[draw,circle] (v2) at (-5.5,-2) {$v_2$};
+      \node[draw,circle] (v3) at (0,3) {$v_3$};
+      \node[draw,circle] (v4) at (0,-2) {$v_4$};
+      \node[draw,circle] (t) at (4,1.5) {$t$};
+      \draw[-{Latex[length=2mm]}](s) edge  [bend left=10 ] 
+      node[midway,above]{\scriptsize 12} (v1);
+      \draw[-{Latex[length=2mm]}](v1) edge  [bend left=10 ] 
+      node[midway,right]{\scriptsize 4} (s);
+
+      \draw[-{Latex[length=2mm]}]  (v3) edge[bend left=10] 
+      node[midway,below]{\scriptsize 8} (v1);
+      \draw[-{Latex[length=2mm]}]  (v1) edge[bend left=10] 
+      node[midway,above]{\scriptsize 4} (v3);
+
+      \draw[-{Latex[length=2mm]}]  (s) edge  [bend left=10]
+      node[midway,right]{\scriptsize 9}(v2);
+      \draw[-{Latex[length=2mm]}]  (v2) edge [bend left=10]
+      node[midway,left]{\scriptsize 4}(s);
+
+      
+      \draw[-{Latex[length=2mm]}]  (v1) edge 
+      node[midway,right]{\scriptsize{4}} (v2);
+
+      \draw[-{Latex[length=2mm]}]  (v2) edge [bend left=10]
+      node[midway,above]{\scriptsize 10} (v4);
+      \draw[-{Latex[length=2mm]}]  (v4) edge [bend left=10]
+      node[midway,below]{\scriptsize 4} (v2);
+
+      \draw[-{Latex[length=2mm]}]  (v4) edge node[midway,right ]{\scriptsize 7} (v3);
+
+      \draw[-{Latex[length=2mm]}]  (t) edge node[midway,below right ]{\scriptsize 4} (v4);
+      
+      \draw[-{Latex[length=2mm]}]  (v3) edge [bend left=10]
+      node[midway,above]{\scriptsize 16} (t);
+      \draw[-{Latex[length=2mm]}]  (t) edge [bend left=10]
+      node[midway,below]{\scriptsize 4} (v3);
+     % \draw[-{Latex[length=2mm]}]  (t) edge [bend left=10]
+     %s node[midway,below ]{\scriptsize 15} (v3);
+      \draw[-{Latex[length=2mm]}]  (v3) edge [bend right=10]
+      node[midway,above left]{\scriptsize 5} (v2);
+      \draw[-{Latex[length=2mm]}]  (v2) edge [bend right=10]
+      node[midway,below]{\scriptsize 4} (v3);
+
+      \end{tikzpicture}
+   }
+   %\caption{1}
+   %\label{}
+  \end{figure}
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{Example}
+ 
+  \begin{figure}[]
+    \centering
+   \subfigure[\tiny{$c_f(p)=4$}]{
+
+    \begin{tikzpicture}[scale=0.4,every node/.style={scale=0.5,minimum size=22}]
+
+      \node[draw,circle] (s)  at (-10,1.5) { $s$};
+      \node[draw,circle] (v1) at (-5.5,3) { $v_1$};
+      \node[draw,circle] (v2) at (-5.5,-2) {$v_2$};
+      \node[draw,circle] (v3) at (0,3) {$v_3$};
+      \node[draw,circle] (v4) at (0,-2) {$v_4$};
+      \node[draw,circle] (t) at (4,1.5) {$t$};
+      \draw[-{Latex[length=2mm]}](s) edge  [bend left=10,color=red ] 
+      node[midway,above]{\scriptsize 12} (v1);
+      \draw[-{Latex[length=2mm]}](v1) edge  [bend left=10 ] 
+      node[midway,right]{\scriptsize 4} (s);
+
+      \draw[-{Latex[length=2mm]}]  (v3) edge[bend left=10] 
+      node[midway,below]{\scriptsize 8} (v1);
+      \draw[-{Latex[length=2mm]}]  (v1) edge[bend left=10] 
+      node[midway,above]{\scriptsize 4} (v3);
+
+      \draw[-{Latex[length=2mm]}]  (s) edge  [bend left=10]
+      node[midway,right]{\scriptsize 9}(v2);
+      \draw[-{Latex[length=2mm]}]  (v2) edge [bend left=10]
+      node[midway,left]{\scriptsize 4}(s);
+
+      
+      \draw[-{Latex[length=2mm]}]  (v1) edge [color=red] 
+      node[midway,right]{\scriptsize{4}} (v2);
+
+      \draw[-{Latex[length=2mm]}]  (v2) edge [bend left=10]
+      node[midway,above]{\scriptsize 10} (v4);
+      \draw[-{Latex[length=2mm]}]  (v4) edge [bend left=10]
+      node[midway,below]{\scriptsize 4} (v2);
+
+      \draw[-{Latex[length=2mm]}]  (v4) edge node[midway,right ]{\scriptsize 7} (v3);
+
+      \draw[-{Latex[length=2mm]}]  (t) edge node[midway,below right ]{\scriptsize 4} (v4);
+      
+      \draw[-{Latex[length=2mm]}]  (v3) edge [bend left=10,color=red]
+      node[midway,above]{\scriptsize 16} (t);
+      \draw[-{Latex[length=2mm]}]  (t) edge [bend left=10]
+      node[midway,below]{\scriptsize 4} (v3);
+     % \draw[-{Latex[length=2mm]}]  (t) edge [bend left=10]
+     %s node[midway,below ]{\scriptsize 15} (v3);
+      \draw[-{Latex[length=2mm]}]  (v3) edge [bend right=10]
+      node[midway,above left]{\scriptsize 5} (v2);
+      \draw[-{Latex[length=2mm]}]  (v2) edge [bend right=10,color=red]
+      node[midway,below]{\scriptsize 4} (v3);
+
+      \end{tikzpicture}
+   }
+   
+   \subfigure[\tiny{update 3}]{
+
+    \begin{tikzpicture}[scale=0.4,every node/.style={scale=0.5,minimum size=22}]
+
+      \node[draw,circle] (s)  at (-10,1.5) { $s$};
+      \node[draw,circle] (v1) at (-5.5,3) { $v_1$};
+      \node[draw,circle] (v2) at (-5.5,-2) {$v_2$};
+      \node[draw,circle] (v3) at (0,3) {$v_3$};
+      \node[draw,circle] (v4) at (0,-2) {$v_4$};
+      \node[draw,circle] (t) at (4,1.5) {$t$};
+      \draw[-{Latex[length=2mm]}](s) edge  [bend left=10 ] 
+      node[midway,above]{\scriptsize 8} (v1);
+      \draw[-{Latex[length=2mm]}](v1) edge  [bend left=10 ] 
+      node[midway,right]{\scriptsize 8} (s);
+
+      \draw[-{Latex[length=2mm]}]  (v3) edge [bend left=10]
+      node[midway,below]{\scriptsize 8} (v1);
+      \draw[-{Latex[length=2mm]}]  (v1) edge [bend left=10]
+      node[midway,above]{\scriptsize 4} (v3);
+     % \draw[-{Latex[length=2mm]}]  (v1) edge[bend left=10] 
+     % node[midway,above]{\scriptsize 8} (v3);
+
+      \draw[-{Latex[length=2mm]}]  (s) edge  [bend left=10]
+      node[midway,right]{\scriptsize 9}(v2);
+      \draw[-{Latex[length=2mm]}]  (v2) edge  [bend left=10]
+      node[midway,below]{\scriptsize 4}(s);
+      %\draw[-{Latex[length=2mm]}]  (v2) edge [bend left=10]
+      %#node[midway,left]{\scriptsize 8}(s);
+
+      \draw[-{Latex[length=2mm]}]  (v2) edge 
+       node[midway,left]{\scriptsize{4}} (v1); 
+      %\draw[-{Latex[length=2mm]}]  (v1) edge [bend left=10]
+      %node[midway,right]{\scriptsize{11}} (v2);
+
+      \draw[-{Latex[length=2mm]}]  (v2) edge [bend left=10]
+      node[midway,above]{\scriptsize 10} (v4);
+      \draw[-{Latex[length=2mm]}]  (v4) edge [bend left=10]
+      node[midway,below]{\scriptsize 4} (v2);
+
+      \draw[-{Latex[length=2mm]}]  (v4) edge node[midway,right ]{\scriptsize 7} (v3);
+
+      \draw[-{Latex[length=2mm]}]  (t) edge node[midway,below right ]{\scriptsize 4} (v4);
+      
+      \draw[-{Latex[length=2mm]}]  (v3) edge [bend left=10]
+      node[midway,above]{\scriptsize 12} (t);
+      \draw[-{Latex[length=2mm]}]  (t) edge [bend left=10]
+      node[midway,below]{\scriptsize 8} (v3);
+     % \draw[-{Latex[length=2mm]}]  (t) edge [bend left=10]
+     %s node[midway,below ]{\scriptsize 15} (v3);
+      \draw[-{Latex[length=2mm]}]  (v3) edge 
+      node[midway,above left]{\scriptsize 9} (v2);
+      %\draw[-{Latex[length=2mm]}]  (v2) edge [bend right=10]
+      %node[midway,below]{\scriptsize 4} (v3);
+
+      \end{tikzpicture}
+   }
+   %\caption{1}
+   %\label{}
+  \end{figure}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Example}
+ 
+  \begin{figure}[]
+    \centering
+  
+    \subfigure[\tiny{$c_f(p)=7$}]{
+
+    \begin{tikzpicture}[scale=0.4,every node/.style={scale=0.5,minimum size=22}]
+
+      \node[draw,circle] (s)  at (-10,1.5) { $s$};
+      \node[draw,circle] (v1) at (-5.5,3) { $v_1$};
+      \node[draw,circle] (v2) at (-5.5,-2) {$v_2$};
+      \node[draw,circle] (v3) at (0,3) {$v_3$};
+      \node[draw,circle] (v4) at (0,-2) {$v_4$};
+      \node[draw,circle] (t) at (4,1.5) {$t$};
+      \draw[-{Latex[length=2mm]}](s) edge  [bend left=10 ] 
+      node[midway,above]{\scriptsize 8} (v1);
+      \draw[-{Latex[length=2mm]}](v1) edge  [bend left=10 ] 
+      node[midway,right]{\scriptsize 8} (s);
+
+      \draw[-{Latex[length=2mm]}]  (v3) edge [bend left=10]
+      node[midway,below]{\scriptsize 8} (v1);
+      \draw[-{Latex[length=2mm]}]  (v1) edge [bend left=10]
+      node[midway,above]{\scriptsize 4} (v3);
+     % \draw[-{Latex[length=2mm]}]  (v1) edge[bend left=10] 
+     % node[midway,above]{\scriptsize 8} (v3);
+
+      \draw[-{Latex[length=2mm]}]  (s) edge  [bend left=10,color=red]
+      node[midway,right]{\scriptsize 9}(v2);
+      \draw[-{Latex[length=2mm]}]  (v2) edge  [bend left=10]
+      node[midway,below]{\scriptsize 4}(s);
+      %\draw[-{Latex[length=2mm]}]  (v2) edge [bend left=10]
+      %#node[midway,left]{\scriptsize 8}(s);
+
+      \draw[-{Latex[length=2mm]}]  (v2) edge 
+       node[midway,left]{\scriptsize{4}} (v1); 
+      %\draw[-{Latex[length=2mm]}]  (v1) edge [bend left=10]
+      %node[midway,right]{\scriptsize{11}} (v2);
+
+      \draw[-{Latex[length=2mm]}]  (v2) edge [bend left=10,color=red]
+      node[midway,above]{\scriptsize 10} (v4);
+      \draw[-{Latex[length=2mm]}]  (v4) edge [bend left=10]
+      node[midway,below]{\scriptsize 4} (v2);
+
+      \draw[-{Latex[length=2mm]}]  (v4) edge[color=red] node[midway,right ]{\scriptsize 7} (v3);
+
+      \draw[-{Latex[length=2mm]}]  (t) edge node[midway,below right ]{\scriptsize 4} (v4);
+      
+      \draw[-{Latex[length=2mm]}]  (v3) edge [bend left=10,color=red]
+      node[midway,above]{\scriptsize 12} (t);
+      \draw[-{Latex[length=2mm]}]  (t) edge [bend left=10]
+      node[midway,below]{\scriptsize 8} (v3);
+     % \draw[-{Latex[length=2mm]}]  (t) edge [bend left=10]
+     %s node[midway,below ]{\scriptsize 15} (v3);
+      \draw[-{Latex[length=2mm]}]  (v3) edge 
+      node[midway,above left]{\scriptsize 9} (v2);
+      %\draw[-{Latex[length=2mm]}]  (v2) edge [bend right=10]
+      %node[midway,below]{\scriptsize 4} (v3);
+
+      \end{tikzpicture}
+   }
+   \subfigure[\tiny{update 4}]{
+
+    \begin{tikzpicture}[scale=0.4,every node/.style={scale=0.5,minimum size=22}]
+
+      \node[draw,circle] (s)  at (-10,1.5) { $s$};
+      \node[draw,circle] (v1) at (-5.5,3) { $v_1$};
+      \node[draw,circle] (v2) at (-5.5,-2) {$v_2$};
+      \node[draw,circle] (v3) at (0,3) {$v_3$};
+      \node[draw,circle] (v4) at (0,-2) {$v_4$};
+      \node[draw,circle] (t) at (4,1.5) {$t$};
+      \draw[-{Latex[length=2mm]}](s) edge  [bend left=10 ] 
+      node[midway,above]{\scriptsize 8} (v1);
+      \draw[-{Latex[length=2mm]}](v1) edge  [bend left=10 ] 
+      node[midway,right]{\scriptsize 8} (s);
+
+      \draw[-{Latex[length=2mm]}]  (v3) edge [bend left=10]
+      node[midway,below]{\scriptsize 8} (v1);
+      \draw[-{Latex[length=2mm]}]  (v1) edge [bend left=10]
+      node[midway,above]{\scriptsize 4} (v3);
+     % \draw[-{Latex[length=2mm]}]  (v1) edge[bend left=10] 
+     % node[midway,above]{\scriptsize 8} (v3);
+
+      \draw[-{Latex[length=2mm]}]  (s) edge  [bend left=10]
+      node[midway,right]{\scriptsize 2}(v2);
+      \draw[-{Latex[length=2mm]}]  (v2) edge  [bend left=10]
+      node[midway,below]{\scriptsize 11}(s);
+      %\draw[-{Latex[length=2mm]}]  (v2) edge [bend left=10]
+      %#node[midway,left]{\scriptsize 8}(s);
+
+      \draw[-{Latex[length=2mm]}]  (v2) edge 
+       node[midway,left]{\scriptsize{4}} (v1); 
+      %\draw[-{Latex[length=2mm]}]  (v1) edge [bend left=10]
+      %node[midway,right]{\scriptsize{11}} (v2);
+
+      \draw[-{Latex[length=2mm]}]  (v2) edge [bend left=10]
+      node[midway,above]{\scriptsize 3} (v4);
+      \draw[-{Latex[length=2mm]}]  (v4) edge [bend left=10]
+      node[midway,below]{\scriptsize 11} (v2);
+
+      \draw[-{Latex[length=2mm]}]  (v3) edge node[midway,right ]{\scriptsize 7} (v4);
+
+      \draw[-{Latex[length=2mm]}]  (t) edge node[midway,below right ]{\scriptsize 4} (v4);
+      
+      \draw[-{Latex[length=2mm]}]  (v3) edge [bend left=10]
+      node[midway,above]{\scriptsize 5} (t);
+      \draw[-{Latex[length=2mm]}]  (t) edge [bend left=10]
+      node[midway,below]{\scriptsize 15} (v3);
+     % \draw[-{Latex[length=2mm]}]  (t) edge [bend left=10]
+     %s node[midway,below ]{\scriptsize 15} (v3);
+      \draw[-{Latex[length=2mm]}]  (v3) edge 
+      node[midway,above left]{\scriptsize 9} (v2);
+      %\draw[-{Latex[length=2mm]}]  (v2) edge [bend right=10]
+      %node[midway,below]{\scriptsize 4} (v3);
+
+      \end{tikzpicture}
+   }
+   %\caption{1}
+   %\label{}
+  \end{figure}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Example}
+ 
+  \begin{figure}[]
+    \centering
+  
+ 
+   \subfigure[\tiny{$c_f(p)=4$}]{
+
+    \begin{tikzpicture}[scale=0.4,every node/.style={scale=0.5,minimum size=22}]
+
+      \node[draw,circle] (s)  at (-10,1.5) { $s$};
+      \node[draw,circle] (v1) at (-5.5,3) { $v_1$};
+      \node[draw,circle] (v2) at (-5.5,-2) {$v_2$};
+      \node[draw,circle] (v3) at (0,3) {$v_3$};
+      \node[draw,circle] (v4) at (0,-2) {$v_4$};
+      \node[draw,circle] (t) at (4,1.5) {$t$};
+      \draw[-{Latex[length=2mm]}](s) edge  [bend left=10 ,color=red] 
+      node[midway,above]{\scriptsize 8} (v1);
+      \draw[-{Latex[length=2mm]}](v1) edge  [bend left=10 ] 
+      node[midway,right]{\scriptsize 8} (s);
+
+      \draw[-{Latex[length=2mm]}]  (v3) edge [bend left=10]
+      node[midway,below]{\scriptsize 8} (v1);
+      \draw[-{Latex[length=2mm]}]  (v1) edge [bend left=10,color=red]
+      node[midway,above]{\scriptsize 4} (v3);
+     % \draw[-{Latex[length=2mm]}]  (v1) edge[bend left=10] 
+     % node[midway,above]{\scriptsize 8} (v3);
+
+      \draw[-{Latex[length=2mm]}]  (s) edge  [bend left=10]
+      node[midway,right]{\scriptsize 2}(v2);
+      \draw[-{Latex[length=2mm]}]  (v2) edge  [bend left=10]
+      node[midway,below]{\scriptsize 11}(s);
+      %\draw[-{Latex[length=2mm]}]  (v2) edge [bend left=10]
+      %#node[midway,left]{\scriptsize 8}(s);
+
+      \draw[-{Latex[length=2mm]}]  (v2) edge 
+       node[midway,left]{\scriptsize{4}} (v1); 
+      %\draw[-{Latex[length=2mm]}]  (v1) edge [bend left=10]
+      %node[midway,right]{\scriptsize{11}} (v2);
+
+      \draw[-{Latex[length=2mm]}]  (v2) edge [bend left=10]
+      node[midway,above]{\scriptsize 3} (v4);
+      \draw[-{Latex[length=2mm]}]  (v4) edge [bend left=10]
+      node[midway,below]{\scriptsize 11} (v2);
+
+      \draw[-{Latex[length=2mm]}]  (v3) edge node[midway,right ]{\scriptsize 7} (v4);
+
+      \draw[-{Latex[length=2mm]}]  (t) edge node[midway,below right ]{\scriptsize 4} (v4);
+      
+      \draw[-{Latex[length=2mm]}]  (v3) edge [bend left=10,color=red]
+      node[midway,above]{\scriptsize 5} (t);
+      \draw[-{Latex[length=2mm]}]  (t) edge [bend left=10]
+      node[midway,below]{\scriptsize 15} (v3);
+     % \draw[-{Latex[length=2mm]}]  (t) edge [bend left=10]
+     %s node[midway,below ]{\scriptsize 15} (v3);
+      \draw[-{Latex[length=2mm]}]  (v3) edge 
+      node[midway,above left]{\scriptsize 9} (v2);
+      %\draw[-{Latex[length=2mm]}]  (v2) edge [bend right=10]
+      %node[midway,below]{\scriptsize 4} (v3);
+
+      \end{tikzpicture}
+   }
+   
+   \subfigure[\tiny{update 5}]{
+
+    \begin{tikzpicture}[scale=0.4,every node/.style={scale=0.5,minimum size=22}]
+
+      \node[draw,circle] (s)  at (-10,1.5) { $s$};
+      \node[draw,circle] (v1) at (-5.5,3) { $v_1$};
+      \node[draw,circle] (v2) at (-5.5,-2) {$v_2$};
+      \node[draw,circle] (v3) at (0,3) {$v_3$};
+      \node[draw,circle] (v4) at (0,-2) {$v_4$};
+      \node[draw,circle] (t) at (4,1.5) {$t$};
+      \draw[-{Latex[length=2mm]}](s) edge  [bend left=10 ] 
+      node[midway,above]{\scriptsize 4} (v1);
+      \draw[-{Latex[length=2mm]}](v1) edge  [bend left=10 ] 
+      node[midway,right]{\scriptsize 12} (s);
+
+      \draw[-{Latex[length=2mm]}]  (v3) edge 
+      node[midway,below]{\scriptsize 12} (v1);
+      %\draw[-{Latex[length=2mm]}]  (v1) edge [bend left=10]
+      %node[midway,above]{\scriptsize 4} (v3);
+     % \draw[-{Latex[length=2mm]}]  (v1) edge[bend left=10] 
+     % node[midway,above]{\scriptsize 8} (v3);
+
+      \draw[-{Latex[length=2mm]}]  (s) edge  [bend left=10]
+      node[midway,right]{\scriptsize 2}(v2);
+      \draw[-{Latex[length=2mm]}]  (v2) edge  [bend left=10]
+      node[midway,below]{\scriptsize 11}(s);
+      %\draw[-{Latex[length=2mm]}]  (v2) edge [bend left=10]
+      %#node[midway,left]{\scriptsize 8}(s);
+
+      \draw[-{Latex[length=2mm]}]  (v2) edge 
+       node[midway,left]{\scriptsize{4}} (v1); 
+      %\draw[-{Latex[length=2mm]}]  (v1) edge [bend left=10]
+      %node[midway,right]{\scriptsize{11}} (v2);
+
+      \draw[-{Latex[length=2mm]}]  (v2) edge [bend left=10]
+      node[midway,above]{\scriptsize 3} (v4);
+      \draw[-{Latex[length=2mm]}]  (v4) edge [bend left=10]
+      node[midway,below]{\scriptsize 11} (v2);
+
+      \draw[-{Latex[length=2mm]}]  (v3) edge node[midway,right ]{\scriptsize 7} (v4);
+
+      \draw[-{Latex[length=2mm]}]  (t) edge node[midway,below right ]{\scriptsize 4} (v4);
+      
+      \draw[-{Latex[length=2mm]}]  (v3) edge [bend left=10]
+      node[midway,above]{\scriptsize 1} (t);
+      \draw[-{Latex[length=2mm]}]  (t) edge [bend left=10]
+      node[midway,below]{\scriptsize 19} (v3);
+     % \draw[-{Latex[length=2mm]}]  (t) edge [bend left=10]
+     %s node[midway,below ]{\scriptsize 15} (v3);
+      \draw[-{Latex[length=2mm]}]  (v3) edge 
+      node[midway,above left]{\scriptsize 9} (v2);
+      %\draw[-{Latex[length=2mm]}]  (v2) edge [bend right=10]
+      %node[midway,below]{\scriptsize 4} (v3);
+
+      \end{tikzpicture}
+   }
+
+   %\caption{1}
+   %\label{}
+  \end{figure}
+\end{frame}
+
+
+
+\begin{frame}
+  \frametitle{Compute the flow}
+ \begin{itemize}
+   \item for each $(u,v)\in E$ compute $f(u,v)=c(u,v)-c_r(u,v)$.
+   \item $f(s,v_1)=16-4=12; f(v_1,v_3)=12-0=12;f(v_2,v_1)=4-4=0;$
+   \item $f(s,v_2)=13-2=11; f(v_3,v_2)=9-9=0;f(v_2,v_4)=14-3=11;$
+   \item $f(v_3,t)=20-1=19;f(v_4,t)=4-0=4;f(v_4,v_3)=7-0=7;$
+ \end{itemize}
+  \begin{figure}[]
+    \centering
+  
+    \begin{tikzpicture}[scale=0.4,every node/.style={scale=0.5,minimum size=22}]
+
+      \node[draw,circle] (s)  at (-10,1.5) { $s$};
+      \node[draw,circle] (v1) at (-5.5,3) { $v_1$};
+      \node[draw,circle] (v2) at (-5.5,-2) {$v_2$};
+      \node[draw,circle] (v3) at (0,3) {$v_3$};
+      \node[draw,circle] (v4) at (0,-2) {$v_4$};
+      \node[draw,circle] (t) at (4,1.5) {$t$};
+      \draw[-{Latex[length=2mm]}](s) edge  
+      node[midway,above]{\scriptsize 12/16} (v1);
+      
+      \draw[-{Latex[length=2mm]}]  (v1) edge 
+      node[midway,above]{\scriptsize 12/12} (v3);
+      %\draw[-{Latex[length=2mm]}]  (v1) edge [bend left=10]
+      %node[midway,above]{\scriptsize 4} (v3);
+     % \draw[-{Latex[length=2mm]}]  (v1) edge[bend left=10] 
+     % node[midway,above]{\scriptsize 8} (v3);
+
+      \draw[-{Latex[length=2mm]}]  (s) edge 
+      node[midway,right]{\scriptsize 11/13}(v2);
+     
+      %\draw[-{Latex[length=2mm]}]  (v2) edge [bend left=10]
+      %#node[midway,left]{\scriptsize 8}(s);
+
+      \draw[-{Latex[length=2mm]}]  (v2) edge 
+       node[midway,left]{\scriptsize{4}} (v1); 
+      %\draw[-{Latex[length=2mm]}]  (v1) edge [bend left=10]
+      %node[midway,right]{\scriptsize{11}} (v2);
+
+      \draw[-{Latex[length=2mm]}]  (v2) edge 
+      node[midway,above]{\scriptsize 11/14} (v4);
+      
+      \draw[-{Latex[length=2mm]}]  (v4) edge node[midway,right ]{\scriptsize 7/7} (v3);
+
+      \draw[-{Latex[length=2mm]}]  (v4) edge node[midway,below right ]{\scriptsize 4/4} (t);
+      
+      \draw[-{Latex[length=2mm]}]  (v3) edge 
+      node[midway,above]{\scriptsize 19/20} (t);
+      
+      \draw[-{Latex[length=2mm]}]  (v3) edge 
+      node[midway,above left]{\scriptsize 9} (v2);
+      %\draw[-{Latex[length=2mm]}]  (v2) edge [bend right=10]
+      %node[midway,below]{\scriptsize 4} (v3);
+
+      \end{tikzpicture}
+   
+   %\caption{1}
+   %\label{}
+  \end{figure}
+\end{frame}
 \end{document}
 
 
