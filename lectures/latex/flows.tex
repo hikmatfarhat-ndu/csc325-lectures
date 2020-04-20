@@ -98,7 +98,7 @@ float=tbh,
 \end{frame}
 
 \begin{frame}
-  \frametitle{Example}
+  \frametitle{Example (All examples are taken from the CLRS book)}
   \begin{itemize}
     \item Notation: $flow/capacity$. if $flow=0$, e.g $v_2\rightarrow v_1$. then just $capacity$
   \end{itemize}
@@ -117,22 +117,22 @@ float=tbh,
     \draw[-{Latex[length=2mm]}](s) edge node[midway,above]{\scriptsize 11/16} (v1);
     \draw[-{Latex[length=2mm]}]  (v1) edge node[midway,above]{\scriptsize 12/12} (v3);
     \draw[-{Latex[length=2mm]}]  (s) edge node[midway,below left]{\scriptsize 8/13}(v2);
-    \draw[-{Latex[length=2mm]}]  (v2) edge [bend left=10]
-     node[midway,left]{\scriptsize{10}} (v1);
+    %\draw[-{Latex[length=2mm]}]  (v2) edge [bend left=10]
+    % node[midway,left]{\scriptsize{10}} (v1);
     \draw[-{Latex[length=2mm]}]  (v2) edge node[midway,below ]{\scriptsize 11/14} (v4);
     \draw[-{Latex[length=2mm]}]  (v4) edge node[midway,right ]{\scriptsize 7/7} (v3);
     \draw[-{Latex[length=2mm]}]  (v4) edge node[midway,below right ]{\scriptsize 4/4} (t);
-    \draw[-{Latex[length=2mm]}]  (v3) edge node[midway,above right ]{\scriptsize 15/20} (t);
+    \draw[-{Latex[length=2mm]}]  (v3) edge node[midway,above right ]{\scriptsize 19/20} (t);
     \draw[-{Latex[length=2mm]}]  (v3) edge node[midway,below right]{\scriptsize 4/9} (v2);
-    \draw[-{Latex[length=2mm]}]  (v3) edge (v1);
-    \draw[-{Latex[length=2mm]}]  (v1) edge [bend left=10]
-    node[midway,right]{\scriptsize{1/4}} (v2);
+    \draw[-{Latex[length=2mm]}]  (v2) edge %[bend left=10]
+    node[midway,right]{\scriptsize{1/4}} (v1);
     \end{tikzpicture}
     \caption{1}
     \label{}
   \end{figure}
 
 \end{frame}
+\section{Residual Networks}
 \begin{frame}
   \frametitle{Residual Networks}
 
@@ -140,19 +140,20 @@ float=tbh,
     \item Given a graph $G=<V,E>$, a flow $f$ in $G$ and a capacity function $c$.
     \item Define the residual capacity of an edge $(u,v)$ as
     \begin{align*}
-      c_f(u,v)=c(u,v)-f(u,v)
+      c_R(u,v)=c(u,v)-f(u,v)
     \end{align*} 
     \item Intuitivally, the residual capacity of an edge is how much more flow can pass through it.
     \item Note that every $(u,v)\notin E$ also has a residual capacity.
-    \item Since the capacity of such pairs is by definition zero then their residual. capacity is 
+    \item Since the capacity of such pairs is by definition zero then their residual capacity is 
     \begin{align*}
-      \forall (u,v)\notin E\ \ c_R(u,v)=-f(u,v)
+      \forall (u,v)\notin E\ \ c_R(u,v)=-f(u,v)=f(v,u)
     \end{align*} 
   \end{itemize}
 
 \end{frame}
+
 \begin{frame}
-  \frametitle{Example}
+  \frametitle{Example residual network}
 
   \begin{figure}[]
     \centering
@@ -170,15 +171,15 @@ float=tbh,
     \draw[-{Latex[length=2mm]}](s) edge node[midway,above]{\scriptsize 11/16} (v1);
     \draw[-{Latex[length=2mm]}]  (v1) edge node[midway,above]{\scriptsize 12/12} (v3);
     \draw[-{Latex[length=2mm]}]  (s) edge node[midway,below left]{\scriptsize 8/13}(v2);
-    \draw[-{Latex[length=2mm]}]  (v2) edge [bend left=10]
-     node[midway,left]{\scriptsize{10}} (v1);
+    %\draw[-{Latex[length=2mm]}]  (v2) edge [bend left=10]
+    % node[midway,left]{\scriptsize{10}} (v1);
     \draw[-{Latex[length=2mm]}]  (v2) edge node[midway,below ]{\scriptsize 11/14} (v4);
     \draw[-{Latex[length=2mm]}]  (v4) edge node[midway,right ]{\scriptsize 7/7} (v3);
     \draw[-{Latex[length=2mm]}]  (v4) edge node[midway,below right ]{\scriptsize 4/4} (t);
-    \draw[-{Latex[length=2mm]}]  (v3) edge node[midway,above right ]{\scriptsize 15/20} (t);
+    \draw[-{Latex[length=2mm]}]  (v3) edge node[midway,above right ]{\scriptsize 19/20} (t);
     \draw[-{Latex[length=2mm]}]  (v3) edge node[midway,below right]{\scriptsize 4/9} (v2);
-    \draw[-{Latex[length=2mm]}]  (v1) edge [bend left=10]
-    node[midway,right]{\scriptsize{1/4}} (v2);
+    \draw[-{Latex[length=2mm]}]  (v2) edge %[bend left=10]
+    node[midway,right]{\scriptsize{1/4}} (v1);
     \end{tikzpicture}
    
    }
@@ -205,7 +206,7 @@ float=tbh,
       node[midway,left]{\scriptsize 8}(s);
 
       \draw[-{Latex[length=2mm]}]  (v2) edge [bend left=10]
-       node[midway,left]{\scriptsize{11}} (v1);
+       node[midway,left]{\scriptsize{3}} (v1);
       \draw[-{Latex[length=2mm]}]  (v2) edge [bend left=10]
       node[midway,above]{\scriptsize 3} (v4);
       \draw[-{Latex[length=2mm]}]  (v4) edge [bend left=10]
@@ -215,16 +216,16 @@ float=tbh,
 
       \draw[-{Latex[length=2mm]}]  (t) edge node[midway,below right ]{\scriptsize 4} (v4);
       \draw[-{Latex[length=2mm]}]  (v3) edge [bend left=10]
-      node[midway,above]{\scriptsize 5} (t);
+      node[midway,above]{\scriptsize 1} (t);
       \draw[-{Latex[length=2mm]}]  (t) edge [bend left=10]
-      node[midway,below ]{\scriptsize 15} (v3);
+      node[midway,below ]{\scriptsize 19} (v3);
       \draw[-{Latex[length=2mm]}]  (v3) edge [bend right=10]
       node[midway,above left]{\scriptsize 5} (v2);
       \draw[-{Latex[length=2mm]}]  (v2) edge [bend right=10]
       node[midway,below]{\scriptsize 4} (v3);
 
       \draw[-{Latex[length=2mm]}]  (v1) edge [bend left=10]
-      node[midway,right]{\scriptsize{3}} (v2);
+      node[midway,right]{\scriptsize{1}} (v2);
       \end{tikzpicture}
     
 
@@ -240,9 +241,11 @@ float=tbh,
   \begin{itemize}
     \item Ford-Fulkerson is a general \textbf{method} to find a maximum flow in a a network.
     \item Iteratively find an \textbf{augemting path} in the residual network.
-    \item update the residual network.
-    \item until there is no more augemting paths.
+    \item update the residual network until there is no more augemting paths.
     \item the resulting flow is maximum.
+    \item \textbf{Does not} specify how to find an augmenting path.
+    \item For now we will find an augmenting path "visually".
+
   \end{itemize}
 
 \end{frame}
@@ -272,10 +275,7 @@ float=tbh,
       $f(u,v)\gets c(u,v)-c_r(u,v)$
     } 
     \end{algorithm}
-\begin{itemize}
-  \item Since it does not specify \textbf{how} to find an augmenting path, FF is called a method. 
-  \item For now we will find an augmenting path "visually".
-\end{itemize}
+
 \end{frame}
 \setcounter{subfigure}{0}
 \begin{frame}
@@ -286,7 +286,7 @@ float=tbh,
   \begin{figure}[]
     \centering
     
-   \subfigure[\tiny{$c_p=4$}]
+   \subfigure[\tiny{$c_r(p)=4$}]
    {
   \begin{tikzpicture}[scale=0.4,every node/.style={scale=0.5,minimum size=22}]
 
@@ -371,7 +371,7 @@ float=tbh,
   \begin{figure}[]
     \centering
     
-   \subfigure[\tiny{$c_f=4$}]{
+   \subfigure[\tiny{$c_r(p)=4$}]{
 
     \begin{tikzpicture}[scale=0.4,every node/.style={scale=0.5,minimum size=22}]
 
@@ -483,7 +483,7 @@ float=tbh,
  
   \begin{figure}[]
     \centering
-   \subfigure[\tiny{$c_f(p)=4$}]{
+   \subfigure[\tiny{$c_r(p)=4$}]{
 
     \begin{tikzpicture}[scale=0.4,every node/.style={scale=0.5,minimum size=22}]
 
@@ -602,7 +602,7 @@ float=tbh,
   \begin{figure}[]
     \centering
   
-    \subfigure[\tiny{$c_f(p)=7$}]{
+    \subfigure[\tiny{$c_r(p)=7$}]{
 
     \begin{tikzpicture}[scale=0.4,every node/.style={scale=0.5,minimum size=22}]
 
@@ -726,7 +726,7 @@ float=tbh,
     \centering
   
  
-   \subfigure[\tiny{$c_f(p)=4$}]{
+   \subfigure[\tiny{$c_r(p)=4$}]{
 
     \begin{tikzpicture}[scale=0.4,every node/.style={scale=0.5,minimum size=22}]
 
@@ -850,14 +850,71 @@ float=tbh,
 \begin{frame}
   \frametitle{Compute the flow}
  \begin{itemize}
-   \item for each $(u,v)\in E$ compute $f(u,v)=c(u,v)-c_r(u,v)$.
-   \item $f(s,v_1)=16-4=12; f(v_1,v_3)=12-0=12;f(v_2,v_1)=4-4=0;$
-   \item $f(s,v_2)=13-2=11; f(v_3,v_2)=9-9=0;f(v_2,v_4)=14-3=11;$
-   \item $f(v_3,t)=20-1=19;f(v_4,t)=4-0=4;f(v_4,v_3)=7-0=7;$
+  \item for each $(u,v)\in E$ we have $f(u,v)=c_r(v,u)$. Only edges with $c_r>0$ are shown
+   %\item for each $(u,v)\in E$ compute $f(u,v)=c(u,v)-c_r(u,v)$.
+  % \item $f(s,v_1)=16-4=12; f(v_1,v_3)=12-0=12;f(v_2,v_1)=4-4=0;$
+  % \item $f(s,v_2)=13-2=11; f(v_3,v_2)=9-9=0;f(v_2,v_4)=14-3=11;$
+   %\item $f(v_3,t)=20-1=19;f(v_4,t)=4-0=4;f(v_4,v_3)=7-0=7;$
  \end{itemize}
   \begin{figure}[]
     \centering
+    \subfigure[\tiny{Final Residual Network}]{
+
+      \begin{tikzpicture}[scale=0.4,every node/.style={scale=0.5,minimum size=22}]
   
+        \node[draw,circle] (s)  at (-10,1.5) { $s$};
+        \node[draw,circle] (v1) at (-5.5,3) { $v_1$};
+        \node[draw,circle] (v2) at (-5.5,-2) {$v_2$};
+        \node[draw,circle] (v3) at (0,3) {$v_3$};
+        \node[draw,circle] (v4) at (0,-2) {$v_4$};
+        \node[draw,circle] (t) at (4,1.5) {$t$};
+        \draw[-{Latex[length=2mm]}](s) edge  [bend left=10 ] 
+        node[midway,above]{\scriptsize 4} (v1);
+        \draw[-{Latex[length=2mm]}](v1) edge  [bend left=10 ] 
+        node[midway,right]{\scriptsize 12} (s);
+  
+        \draw[-{Latex[length=2mm]}]  (v3) edge 
+        node[midway,below]{\scriptsize 12} (v1);
+        %\draw[-{Latex[length=2mm]}]  (v1) edge [bend left=10]
+        %node[midway,above]{\scriptsize 4} (v3);
+       % \draw[-{Latex[length=2mm]}]  (v1) edge[bend left=10] 
+       % node[midway,above]{\scriptsize 8} (v3);
+  
+        \draw[-{Latex[length=2mm]}]  (s) edge  [bend left=10]
+        node[midway,right]{\scriptsize 2}(v2);
+        \draw[-{Latex[length=2mm]}]  (v2) edge  [bend left=10]
+        node[midway,below]{\scriptsize 11}(s);
+        %\draw[-{Latex[length=2mm]}]  (v2) edge [bend left=10]
+        %#node[midway,left]{\scriptsize 8}(s);
+  
+        \draw[-{Latex[length=2mm]}]  (v2) edge 
+         node[midway,left]{\scriptsize{4}} (v1); 
+        %\draw[-{Latex[length=2mm]}]  (v1) edge [bend left=10]
+        %node[midway,right]{\scriptsize{11}} (v2);
+  
+        \draw[-{Latex[length=2mm]}]  (v2) edge [bend left=10]
+        node[midway,above]{\scriptsize 3} (v4);
+        \draw[-{Latex[length=2mm]}]  (v4) edge [bend left=10]
+        node[midway,below]{\scriptsize 11} (v2);
+  
+        \draw[-{Latex[length=2mm]}]  (v3) edge node[midway,right ]{\scriptsize 7} (v4);
+  
+        \draw[-{Latex[length=2mm]}]  (t) edge node[midway,below right ]{\scriptsize 4} (v4);
+        
+        \draw[-{Latex[length=2mm]}]  (v3) edge [bend left=10]
+        node[midway,above]{\scriptsize 1} (t);
+        \draw[-{Latex[length=2mm]}]  (t) edge [bend left=10]
+        node[midway,below]{\scriptsize 19} (v3);
+       % \draw[-{Latex[length=2mm]}]  (t) edge [bend left=10]
+       %s node[midway,below ]{\scriptsize 15} (v3);
+        \draw[-{Latex[length=2mm]}]  (v3) edge 
+        node[midway,above left]{\scriptsize 9} (v2);
+        %\draw[-{Latex[length=2mm]}]  (v2) edge [bend right=10]
+        %node[midway,below]{\scriptsize 4} (v3);
+  
+        \end{tikzpicture}
+     }
+     \subfigure[\tiny{Maximum flow}]{
     \begin{tikzpicture}[scale=0.4,every node/.style={scale=0.5,minimum size=22}]
 
       \node[draw,circle] (s)  at (-10,1.5) { $s$};
@@ -877,7 +934,7 @@ float=tbh,
      % node[midway,above]{\scriptsize 8} (v3);
 
       \draw[-{Latex[length=2mm]}]  (s) edge 
-      node[midway,right]{\scriptsize 11/13}(v2);
+      node[midway,below left]{\scriptsize 11/13}(v2);
      
       %\draw[-{Latex[length=2mm]}]  (v2) edge [bend left=10]
       %#node[midway,left]{\scriptsize 8}(s);
@@ -903,7 +960,7 @@ float=tbh,
       %node[midway,below]{\scriptsize 4} (v3);
 
       \end{tikzpicture}
-   
+     }
    %\caption{1}
    %\label{}
   \end{figure}
