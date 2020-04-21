@@ -75,7 +75,7 @@ int main()
         ::count = 0;
         cout << " Trial " << k << endl;
         cout << "--------------------------\n";
-        int set_size = 20;
+        int set_size = 25;
         for (int i = 0; i < set_size; i++)
             s.push_back(id(e));
         target = id(e);
@@ -107,8 +107,8 @@ int main()
         }
 
         {
-            root = new Node;
             ::count = 0;
+            root = new Node;
             solution = "";
             root->remainder = std::accumulate(s.begin(), s.end(), 0);
             root->sum = 0;
