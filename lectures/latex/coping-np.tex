@@ -606,6 +606,22 @@ $F(0)=0$ and $F(1)=1$ thus $\alpha=-\beta=\frac{1}{\sqrt{5}}$ and we get
 
 \end{frame}
 
+\subsection{Subset sum}
+\begin{frame}
+  \frametitle{Subset Sum}
+\begin{itemize}
+  \item At each step keep two variables: $sum$ and $remainder$
+  \item The $sum$ denotes the current sum and the $remainder$ denotes the sum of all items that have not been used yet.
+  \item Let $t$ be the target. Given a choice between adding/not adding element with value $v$
+  \begin{enumerate}
+    \item if $sum+v=t$ then solution found, return solution.
+    \item if $sum+v>t$ backtrack, do not include $v$
+    \item if $sum+remainder-v<t$ backtrack .
+  \end{enumerate}
+\end{itemize}
+  
+
+\end{frame}
 \subsection{Clique}
 
 

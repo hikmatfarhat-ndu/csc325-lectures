@@ -82,7 +82,7 @@ float=tbh,
   \item Each edge $(u,v)\in E$ has a \textbf{capacity} $c(u,v)\ge 0$.
   \item If $(u,v)\notin E$ then we set $c(u,v)=0$.
   \item There are two special vertices: \textbf{source} $s\in V$ and \textbf{sink} $t\in V$.
-  \item We assume that the graph is connected
+  \item We assume that the graph is connected and has no \textbf{anti parallel} edges. If $(u,v)\in E$ implies $(v,u)\notin E$.
   \item A \textbf{flow} is a function $f:V\times V\rightarrow \mathbf{R}$ with the following constraints:
   \begin{enumerate}
     \item for all $u,v\in V$ we have $f(u,v)\le c(u,v)$
@@ -965,6 +965,18 @@ float=tbh,
    %\label{}
   \end{figure}
 \end{frame}
+\section{Edmonds-Karp Algorithm}
+\begin{frame}
+  \frametitle{Edmonds-Karp Algorithm}
+\begin{itemize}
+  \item Uses breadth-first-search (BFS) to find an augmenting path.
+  \item We assign a unit weight for each edge and compute the shortest path from $s$ to $t$
+  \item Select the shortest path as the augmenting path $p$.
+\end{itemize}
+  
+
+\end{frame}
+\section{Bipartite Matching}
 \begin{frame}
   \frametitle{Bipartite matching}
 
