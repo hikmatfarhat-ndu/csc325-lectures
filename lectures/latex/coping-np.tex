@@ -13,6 +13,7 @@
 \usepackage{colortbl}
 \usepackage{subfigure}
 \newcommand{\given}[0]{\ensuremath{\!\mid\!}}
+\newcommand{\set}[1]{\{#1\}}
 \makeatletter
 \newcolumntype{W}{!{\smash{\vrule
 \@width 4\arrayrulewidth
@@ -330,6 +331,34 @@ $F(0)=0$ and $F(1)=1$ thus $\alpha=-\beta=\frac{1}{\sqrt{5}}$ and we get
 \end{frame}
 
 
+\subsection{Subset sum}
+\begin{frame}
+  \frametitle{Subset sum}
+\begin{itemize}
+  \item Given a set of integers $S$ and a target value $t$ the subset sum asks if there is a subset $M\subseteq S$ such that $sum(M)=t$.
+  \item We already have seen a solution using dynamic programming.
+  \item Here we will solve it using backtracking.
+  \item Let $S=\set{x_1,\ldots,x_n}$. At each step $i$ the backtracking algorithm tries two choices: including/excluding $x_i$ in/from the solution.
+  \item 
+\end{itemize}
+  
+
+\end{frame}
+\begin{frame}
+  \frametitle{Subset Sum}
+\begin{itemize}
+  \item At each step keep two variables: $sum$ and $remainder$
+  \item The $sum$ denotes the current sum and the $remainder$ denotes the sum of all items that have not been used yet.
+  \item Let $t$ be the target. Given a choice between adding/not adding element with value $v$
+  \begin{enumerate}
+    \item if $sum+v=t$ then solution found, return solution.
+    \item if $sum+v>t$ backtrack, do not include $v$
+    \item if $sum+remainder-v<t$ backtrack .
+  \end{enumerate}
+\end{itemize}
+  
+
+\end{frame}
 % \begin{frame}
 %   \frametitle{n Queens}
 %    \begin{algorithm}[H]
@@ -606,22 +635,6 @@ $F(0)=0$ and $F(1)=1$ thus $\alpha=-\beta=\frac{1}{\sqrt{5}}$ and we get
 
 \end{frame}
 
-\subsection{Subset sum}
-\begin{frame}
-  \frametitle{Subset Sum}
-\begin{itemize}
-  \item At each step keep two variables: $sum$ and $remainder$
-  \item The $sum$ denotes the current sum and the $remainder$ denotes the sum of all items that have not been used yet.
-  \item Let $t$ be the target. Given a choice between adding/not adding element with value $v$
-  \begin{enumerate}
-    \item if $sum+v=t$ then solution found, return solution.
-    \item if $sum+v>t$ backtrack, do not include $v$
-    \item if $sum+remainder-v<t$ backtrack .
-  \end{enumerate}
-\end{itemize}
-  
-
-\end{frame}
 \subsection{Clique}
 
 

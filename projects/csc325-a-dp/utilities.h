@@ -32,3 +32,4 @@ std::vector<int> convert(std::vector<std::string>& sv);
 Matrix<double>  sequence_al(std::string, std::string);
 std::vector<std::string> split(const std::string& s, char delimiter);
 Matrix<bool> subset_sum(const std::vector<int>& A, const int S);
+std::vector<int> ss_sol(Matrix<bool>& m,std::vector<int>& A, const int S);

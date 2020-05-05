@@ -20,3 +20,25 @@ Matrix<bool> subset_sum(const std::vector<int>& A, const int S) {
 	}
 	return T;
 }
+
+std::vector<int> ss_sol(Matrix<bool>& m,std::vector<int>& A,const int sum){
+	int i=A.size();
+	int s=sum;
+	std::vector<int> sol;
+	while(i>0 && s>0){
+	//check if element n is in the solution
+		bool v = m[i - 1][s - A[i - 1]];
+  	if(s>=A[i-1]&& m[i-1][s-A[i-1]]){
+		sol.push_back(A[i-1]);
+		//continue at m[i-1][s-A[i-1]]
+		s=s-A[i-1];
+		i=i-1;
+	}
+	else {
+		// A[i-1] not in the solution
+		// continue at m[i-1][s]
+		i=i-1;
+	}
+	}
+	return sol;
+  }
