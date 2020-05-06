@@ -58,10 +58,11 @@ Matrix<int> dp_solve(std::vector<Job>& jobs) {
 		for (int t = 0; t <= max_deadline; t++) {
 			int tp = std::min(jobs[i - 1].deadline(), t)
 				- jobs[i - 1].duration();
-			if (tp < 0) {
+
+			if (tp < 0) {// with tp<0 jobs[i-1] cannot finish by deadline t so we cannot include it
 				opt[i][t] = opt[i - 1][t];
 			}
-			else {
+			else {//jobs[i-1] can be included. check which is better
 				opt[i][t] = std::max(opt[i - 1][t],
 					jobs[i - 1].profit() + opt[i - 1][tp]);
 			}
@@ -70,12 +71,32 @@ Matrix<int> dp_solve(std::vector<Job>& jobs) {
 	}
 	return opt;
 }
+//return the list of the actual jobs that give the optimal value
+list<Job> getJobs(Matrix<int>& sol,vector<Job>& jobs) {
+	int i = sol.rows() - 1;
+	int j = sol.cols() - 1;
+	list<Job> res;
+	bool done = false;
+		while (i>0 && j>0) {
+			Job job = jobs[i - 1];
 
+			if (sol[i][j] == sol[i - 1][j] ) {//item i-1 not included
+				i -= 1;
+				
+			}
+			else {
+				res.push_front(job);
+				j = std::min(j,job.deadline())- job.duration();
+				i -= 1;
 
+			}
+		}
+		return res;
+}
 int main() {
 	std::ifstream ifs;
 	std::string instr;
-	ifs.open("jobs.txt");
+	ifs.open("jobs3.txt");
 	std::vector<Job> jobs;
 
 	while (std::getline(ifs, instr)) {
@@ -89,20 +110,25 @@ int main() {
 	
 	Matrix<int> solution;
 	solution = dp_solve(jobs);
-	for (int i = 0; i < solution.rows(); i++) {
+	auto res=getJobs(solution, jobs);
+	for (auto& j : res) {
+		std::cout << j.name() << ",";
+	}
+
+	/*for (int i = 0; i < solution.rows(); i++) {
 		for (int j = 0; j < solution.cols(); j++) {
 			std::cout << solution[i][j] << ",";
 		}
 		std::cout << std::endl;
-	}
-	std::vector<std::string> greedy_sol;
-	greedy_sol = greedy_solve(jobs);
-	auto itr = greedy_sol.begin();
-	for (; itr != greedy_sol.end()-1; itr++)
-		std::cout << *itr << ",";
-	//skip the comma for the last item
-	itr = greedy_sol.end() - 1;
-	std::cout << *itr << std::endl;
+	}*/
+	//std::vector<std::string> greedy_sol;
+	//greedy_sol = greedy_solve(jobs);
+	//auto itr = greedy_sol.begin();
+	//for (; itr != greedy_sol.end()-1; itr++)
+	//	std::cout << *itr << ",";
+	////skip the comma for the last item
+	//itr = greedy_sol.end() - 1;
+	//std::cout << *itr << std::endl;
 
 
 }
