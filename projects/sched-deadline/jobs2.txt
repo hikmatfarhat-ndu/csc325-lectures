@@ -4,6 +4,6 @@
 
 #duration deadline profit name
 3,8,100,A
-2,6,19,B
+2,6,59,B
 3,9,40,C
 2,5,30,D
